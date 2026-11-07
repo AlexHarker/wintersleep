@@ -1,8 +1,8 @@
-
 Audio Input Processing Module
-- mixes any inputs
-- applies spectral correction
-- passes audio to capture module and realtime analysis module
+- processes pickup and mic inputs separately; does not mix them
+- applies input-specific processing (high-pass filtering on both; spectral compensation on the pickup)
+- passes pickup audio to the capture module; the mic remains available for other potential uses
+- realtime analysis input source is not yet specified
 
 Compensation System
 - Realtime Module (applies spectral correction to the input)
@@ -61,3 +61,17 @@ Mid-level module
 PROBLEMS TO SOLVE
 - Model the basic types of activity from the score
 - Figure out where randomisation or timing needs to be embedded/contextual
+
+IMPLEMENTATION STATUS (based on current Max patches and [patch progress notes](./wintersleep-patch/docs/Patch%20Progress%20%2B%20Notes.md))
+
+Status reflects inspection of the available patches and notes, not runtime testing. "Not found" means no implementation was identified in those sources.
+
+- Audio input processing — IMPLEMENTED: mic and pickup are processed separately; high-pass filtering is present on both, pickup compensation and a circular input buffer are present in [Module_Input.maxpat](./wintersleep-patch/Module_Input.maxpat). Only pickup audio feeds capture; the mic remains available for other potential uses. Mechanisms for setting parameters for the piece remain to be reviewed. Realtime-analysis routing is a separate system-level question.
+- Compensation — PARTIAL: offline rolloff, body-IR, and transposition patches exist ([Compensate_Rolloff.maxpat](./wintersleep-patch/Compensate_Rolloff.maxpat), [Compensate_BodyIR.maxpat](./wintersleep-patch/Compensate_BodyIR.maxpat), [Compensate_Transpose.maxpat](./wintersleep-patch/Compensate_Transpose.maxpat)). Realtime compensation exists in [Compensate_Realtime.maxpat](./wintersleep-patch/Compensate_Realtime.maxpat), but its preparation patch is a TODO; smoothing and bounds handling need review.
+- Realtime analysis — NOT FOUND: the listed descriptors and similarity representations are not identified. Adding analysis is a capture-module TODO.
+- Capture — PARTIAL: circular buffering and buffer copying/collection are present in [Input_Circular_Buffer.maxpat](./wintersleep-patch/Input_Circular_Buffer.maxpat) and [Capture_Buffers.maxpat](./wintersleep-patch/Capture_Buffers.maxpat). Adding analysis is a TODO; bundling realtime analysis with buffers needs a decision.
+- Offline sample processing — NOT FOUND: no general captured-sample descriptor, alternative-representation, or categorisation pipeline is identified.
+- Sample choice and playback — NOT FOUND: content-aware/randomised selection, captured-sample playback, and additive resynthesis are not identified.
+- Randomisation, timing, mapping, and mid-level control — NOT FOUND: these planned modules are not identified in the available patches.
+- Hardware input — PARTIAL: a Launch Control surface with faders, encoders, and buttons exists in [Controller_LaunchControl.maxpat](./wintersleep-patch/Controller_LaunchControl.maxpat). MIDI port selection, additional features, and message normalization remain to be reviewed.
+- Score activity model and contextual placement of randomisation/timing — OPEN: these remain listed under PROBLEMS TO SOLVE above.

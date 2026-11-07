@@ -171,8 +171,10 @@
       "bases:Create new base": false
     }
   },
-  "active": "04421bc568224d2c",
+  "active": "939908dbfdae0460",
   "lastOpenFiles": [
+    "System Architecture.md",
+    "Basic Systems Ideas.md",
     "Test Patches/Test.maxpat",
     "wintersleep-patch/Controller_LaunchControl.maxpat",
     "Test Patches",
@@ -183,10 +185,7 @@
     "wintersleep-patch/Controller_Encoder 2.maxpat",
     "wintersleep-patch/Controller_Block_Encoders.maxpat",
     "wintersleep-patch/Controller_Block_Faders 2.maxpat",
-    "wintersleep-patch/Controller_Encoder_Curve.maxpat",
-    "System Architecture.md",
     "wintersleep-patch/docs/Patch Progress + Notes.md",
-    "Basic Systems Ideas.md",
     "To Consider.md",
     "Technique Questions.md",
     "Tasks.md",
