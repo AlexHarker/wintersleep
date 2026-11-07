@@ -1,0 +1,9 @@
+- Fifth plus deviations
+- Low string plus harmonic Major 3rd
+- Third string + clashing 7th
+- IV (5th) / III (8ve) / III (8ve + 5th) / II (Maj 3rd) - HARMONICS
+- IV (open) / III (Maj 3rd) - HARMONICS
+- IV (open) / III (tone above) / II (4th)
+- IV (open) / III (15ve) / II (8ve + 5th)
+- Quadruple stop arcs with open and then adding from above
+- Scale

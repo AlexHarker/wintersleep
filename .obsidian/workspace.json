@@ -1,0 +1,209 @@
+{
+  "main": {
+    "id": "d68ed44bba9d6b10",
+    "type": "split",
+    "children": [
+      {
+        "id": "0e259588944aec43",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "04421bc568224d2c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "wintersleep-patch/docs/Patch Progress + Notes.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Patch Progress + Notes"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "5ec489a8eef22631",
+    "type": "split",
+    "children": [
+      {
+        "id": "8d3b1ee621042d06",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "939908dbfdae0460",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "bfd704bdbea217a2",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "708a584c62249c95",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "12cd4517aa23a907",
+    "type": "split",
+    "children": [
+      {
+        "id": "18538c75f8bf0b58",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5bde56b2f6f4a091",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Welcome.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Welcome"
+            }
+          },
+          {
+            "id": "c0473a30a31a7d6b",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Welcome.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Welcome"
+            }
+          },
+          {
+            "id": "0f3e334f933d572c",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "2826e354ded39b88",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Welcome.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Welcome"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "04421bc568224d2c",
+  "lastOpenFiles": [
+    "Basic Systems Ideas.md",
+    "wintersleep-patch/Test.maxpat",
+    "System Architecture.md",
+    "wintersleep-patch/Compensate_BodyIR.maxpat",
+    "wintersleep-patch/Compensate_Realtime.maxpat",
+    "wintersleep-patch/docs/Patch Progress + Notes.md",
+    "To Consider.md",
+    "Technique Questions.md",
+    "Tasks.md",
+    "Basic Ideas.md",
+    "DSP Ideas.md",
+    "Harmonies.md",
+    "Optimisation.md",
+    "Score To Do.md",
+    "marco-fusi-score/lilypond-tmp-1c7ff6.pdf",
+    "marco-fusi-score/lilypond-tmp-6ae6a3.pdf",
+    "marco-fusi-score/lilypond-tmp-c1282c.pdf",
+    "marco-fusi-score/lilypond-tmp-a5145d.pdf",
+    "marco-fusi-score/lilypond-tmp-c3c95d.pdf",
+    "marco-fusi-score/lilypond-tmp-b06003.pdf",
+    "marco-fusi-score/lilypond-tmp-11097e.pdf",
+    "marco-fusi-score/KEY-NOTATIONS.md",
+    "marco-fusi-score/KEY-FOR-PERFORMER.md",
+    "marco-fusi-score/KEY-GAPS.md",
+    "marco-fusi-score/extra/arc-icon-example.jpg",
+    "marco-fusi-score/extra/glisses.jpg",
+    "marco-fusi-score/extra/glisses-3.jpeg",
+    "marco-fusi-score/extra/glisses-2.jpg",
+    "Parameters.md",
+    "file:/Users/smusajh/Documents/Teaching/DMP2/03 Lectures/Dark Mode Work/AIM2214 DMP2 - 03 That 80s Sound Dark Mode.md",
+    "Studies.md",
+    "Additive System.md"
+  ]
+}

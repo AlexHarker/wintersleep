@@ -1,0 +1,23 @@
+- DSP
+	- gen~ vs MSP
+	- branching can ease load but not necessarily peak load (unless limited options employed at one time)
+	- gen~ would ease branching, but is often slower for specific tasks
+		- cycle~
+		- reson~ emulation with noise
+	- gen~ is faster for small things that would split into 5+ MSP objects, suggesting that the fundamental overhead is relatively low, or that the number of MSP objects is crucial
+- Analysis
+	- data format 
+		- as per jkc correspondence native array objects are limited
+		- some speed up can be done avoiding native objects
+		- a custom object could reduce validation
+		- likely dictionaries at the bottom level are still useful (and maybe faster)
+	- iterative processes
+		- example is finding start / end frames
+		- here native might be good for proof-of-concept and then we move to custom code for speed as an optimation step
+	- offline processing
+		- processing is likely too slow for "realtime" and it's unclear whether low priority thread will be sufficient
+		- if not there are three possible approaches
+			- revive the "whenever" object, which is flaky
+			- move the whole analysis process to an external
+			- use an infrastructure that hives off the threads (e.g. multiple copies of Max or poly~ in a scheduler thread (unclear if that can be desynced fully))
+				- communication between multiple Max copies for data is complex

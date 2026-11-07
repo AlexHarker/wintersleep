@@ -1,0 +1,17 @@
+- Harmony
+	- Develop scale ideas (remembering E and Bb options)
+	- Explore 9/11/13/15 harmonics (at least from the virtual fundamental)
+	- Differentiated chords
+- Max patches (assistive - with notation)
+	- String + ratio and store
+	- MIDI playback
+- Notation
+	- Rhythmic Approaches (descriptive  combo / pseudometric / metric)
+- Max patches (DSP)
+	- Additive analysis and capture
+		- Peak finding
+		- Partial Tracking
+		- Form full tracks and store as objects
+		- Manipulate based on tracks
+	- Additive transforms
+	- Effects / Synth expansions (noise / distortion / AM)

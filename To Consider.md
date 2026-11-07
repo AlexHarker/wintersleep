@@ -1,0 +1,21 @@
+- How to align body compensation with any pitch modifications (currently this only accounts??)
+- How to apply control to all the synthesis parameters - these could be:
+	- Global static (all partials the same), based on external randomisation or not
+	- Randomised per partial
+	- Set per partial (frequency dependent)
+	- Set per partial (amp dependent)
+	- Set per partial (length dependent)
+	- Dynamic over time (global)
+	- Dynamic over time (per partial)
+- More mechanisms for global timeline traversal
+- **DONE** Add a mechanism for random walk drive
+- **DONE** Add a mechanism for reverse playback (partial and or global)
+- Add a option for global drive of partial position (with drag/pull?)
+
+- Parameter modulation / structure
+	- Presets (static)
+	- Presets with Localised random
+	- Preset / Space interpolation (could be from generated spaces)
+	- Evolving / Morphing (developing from previous settings)
+		- Storage system linked to partial nnumbers (how to link between parts of a recording / does that matter?)
+	

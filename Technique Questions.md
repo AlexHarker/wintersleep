@@ -1,0 +1,28 @@
+- Bowing
+	- Speed / Position / Pressure / Angle
+	- Direction 
+		- Just horizontal
+		- Combos (e.g. part each / circular / scribble)
+		- Behaviours
+- Semi-pitched playing	
+	- Is finger pressure or area more important?
+	- What is the contribution of
+	- What is a good set of metrics/descriptors for types of possibilities
+		- Extremities or Categories
+- Multiphonics
+	- How do these work on the violin/viola?
+	- How controllable are they?
+	- Can they be played in an unstable manner?
+- Open String
+	- Vibrato options
+	- Other fingering at the nut possibilities
+- Harmonics
+	- Harmonic "vibrato" (wide and narrow)
+	- Relationship to more normal pitches in terms of transitions between the two (what can be morphed, what will switch)
+	- Bow speed / position / angle / pressure contributions
+- Tuning 
+	- Taking higher ratios down by one or more octaves / ease of JI tuning
+	- Beating as tempo / rhythm
+		- Register
+		- Ease of control
+	

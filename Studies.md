@@ -1,0 +1,10 @@
+- Simple alternation study
+- Central multiplex study/studies
+	- To use as anchor
+	- To use as continuity with interruptions
+- Morph study? 
+- Alternation and stability
+	- Smoothness
+	- Accentuation (swapping or consistent)
+	- Variability
+	- Base patterns
