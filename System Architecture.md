@@ -228,7 +228,10 @@ The statuses below are additions to the proposed architecture above, not changes
 | **Descriptor-frame analysis** | **Partial** | [Analysis_Descriptor_Frame.maxpat](./wintersleep-patch/Analysis_Descriptor_Frame.maxpat) provides descriptor-frame analysis for offline use. Realtime-specific adaptation and the remaining secondary/partial-analysis code are TODOs. |
 | **Realtime analysis** | **Partial** | Offline descriptor-frame analysis exists, but its realtime-specific adaptation and integration with capture/mapping remain unfinished. |
 | **Offline sample processing** | **Partial** | Descriptor-frame analysis is available for offline use. A broader captured-sample pipeline for alternative representations or categorisation is not identified. |
-| **Sample choice and playback** | **Not found** | Content-aware/randomised selection, captured-sample playback, and additive resynthesis are not identified. |
+| **Sample choice** | **Not found** | Content-aware or sample-based selection is not identified. |
+| **Playback** | **Not found** | Captured-sample playback and additive resynthesis are not identified. |
 | **Randomisation** | **Partial** | Randomisation utility patches are present; building further modules and combinations remains a TODO. Review the reported duplicate-group behavior in Random_Groups, currently used in drift shadow. |
-| **Mapping, mid-level control, and timing** | **Not found** | No implementations of these planned modules are identified. |
+| **Timing control** | **Not found** | No implementation is identified in the available patches. |
+| **Mapping** | **Not found** | No implementation is identified in the available patches. |
+| **Mid-level control** | **Not found** | No implementation is identified in the available patches. |
 | **Score activity model** | **Open** | Modeling the basic score activities and deciding where timing/randomisation should be contextual remain problems to solve. |

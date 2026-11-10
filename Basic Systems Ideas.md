@@ -71,8 +71,11 @@ Status reflects inspection of the available patches and notes, not runtime testi
 - **Realtime analysis** — PARTIAL: offline descriptor-frame analysis is present in [Analysis_Descriptor_Frame.maxpat](./wintersleep-patch/Analysis_Descriptor_Frame.maxpat); realtime-specific adaptation and integration remain TODOs. The notes also call for secondary analysis and additional partial-analysis code.
 - **Capture** — PARTIAL: circular buffering and buffer copying/collection are present in [Capture_Circular_Buffer.maxpat](./wintersleep-patch/Capture_Circular_Buffer.maxpat) and [Capture_Buffers.maxpat](./wintersleep-patch/Capture_Buffers.maxpat). The buffer defaults to three minutes and has no direct duration control. Connecting descriptor analysis to capture remains a TODO; bundling realtime analysis with buffers needs a decision.
 - **Offline sample processing** — PARTIAL: descriptor-frame analysis is available for offline use in [Analysis_Descriptor_Frame.maxpat](./wintersleep-patch/Analysis_Descriptor_Frame.maxpat). A broader captured-sample pipeline for alternative representations or categorisation is not identified.
-- **Sample choice and playback** — NOT FOUND: content-aware/randomised selection, captured-sample playback, and additive resynthesis are not identified.
+- **Sample choice** — NOT FOUND: content-aware or sample-based selection is not identified.
+- **Playback** — NOT FOUND: captured-sample playback and additive resynthesis are not identified.
 - **Randomisation** — PARTIAL: randomisation utility patches are present; building further modules and combinations remains a TODO. Review the reported duplicate-group behavior in Random_Groups (currently used in drift shadow).
-- **Timing, mapping, and mid-level control** — NOT FOUND: these planned modules are not identified in the available patches.
+- **Timing control** — NOT FOUND: no implementation is identified in the available patches.
+- **Mapping** — NOT FOUND: no implementation is identified in the available patches.
+- **Mid-level control** — NOT FOUND: no implementation is identified in the available patches.
 - **Hardware input** — IMPLEMENTED: a Launch Control surface with faders, encoders, and buttons exists in [Controller_LaunchControl.maxpat](./wintersleep-patch/Controller_LaunchControl.maxpat). Review all-MIDI-input versus targeted-port behavior, additional controls/display/LEDs, and message normalization; labels and static colors can be assigned in the editor.
 - **Score activity model and contextual placement of randomisation/timing** — OPEN: these remain listed under PROBLEMS TO SOLVE above.
