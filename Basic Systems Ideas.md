@@ -11,8 +11,8 @@ Compensation System
 Realtime analysis module
 - generates audio descriptors to pass to the mapping module
     - onsets/changes
-    - measure of similarity to past windows
-    - spectral shape
+    - measure of similarity to past windows [Spectral shape representations]
+    - spectral shape [simple or mfcc etc.]
     - loudness
     - pitch/harmony
 - generates data/representations for driving sample choice via similarity comparison to captured buffers/metadata
