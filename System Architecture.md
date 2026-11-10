@@ -1,6 +1,6 @@
-# Marco Fusi Piece - System Architecture Visualization
+# **Marco Fusi Piece - System Architecture Visualization**
 
-## Main Architecture Diagram
+## **Main Architecture Diagram**
 
 ```mermaid
 flowchart TB
@@ -94,7 +94,7 @@ flowchart TB
     style MidLevel fill:#bbdefb
 ```
 
-## Dataflow Representation
+## **Dataflow Representation**
 
 ```mermaid
 graph LR
@@ -127,7 +127,7 @@ graph LR
     F --> H
 ```
 
-## Score Activity Model
+## **Score Activity Model**
 
 ```mermaid
 mindmap
@@ -150,7 +150,7 @@ mindmap
       Score_Structure_Level
 ```
 
-## State Machine for Activity Modeling
+## **State Machine for Activity Modeling**
 
 ```mermaid
 stateDiagram
@@ -168,7 +168,7 @@ stateDiagram
     Fade --> [*]: complete
 ```
 
-## Module Interaction Details
+## **Module Interaction Details**
 
 ```mermaid
 sequenceDiagram
@@ -195,7 +195,7 @@ sequenceDiagram
     Playback->>AudioInput: output audio
 ```
 
-## Key Design Principles Summary
+## **Key Design Principles Summary**
 
 1. **Dual Analysis Path**: Realtime vs Offline processing
 2. **Buffer-Based Capture**: Circular buffer for trigger capture
@@ -205,7 +205,7 @@ sequenceDiagram
 
 ---
 
-### Alternative Representations Available:
+### **Alternative Representations Available:**
 
 1. **JSON Schema** - For programmatic representation
 2. **UML Class Diagram** - If implementing as a class-based architecture
@@ -215,20 +215,20 @@ sequenceDiagram
 
 Would you like me to generate any of these additional visual formats?
 
-## Current Implementation Status
+## **Current Implementation Status**
 
 The statuses below are additions to the proposed architecture above, not changes to it. They are based on the current Max patches and [patch progress notes](./wintersleep-patch/docs/Patch%20Progress%20%2B%20Notes.md); they reflect patch inspection, not runtime testing. **Not found** means no implementation was identified in those sources.
 
 | Area | Status | Current evidence / outstanding work |
 |---|---|---|
-| Audio input | **Implemented** | Mic and pickup are processed separately; both have an 80 Hz/order 8 high-pass filter, and pickup compensation and a circular input buffer are present in [Module_Input.maxpat](./wintersleep-patch/Module_Input.maxpat). Only pickup feeds capture; the mic remains available for other potential uses. Parameter-setting mechanisms for the piece remain to be reviewed. Realtime-analysis routing is a separate system-level question. |
-| Compensation | **Implemented** | Offline rolloff, body-IR, and transposition patches exist. Realtime compensation is implemented in [Compensate_Realtime.maxpat](./wintersleep-patch/Compensate_Realtime.maxpat), with [- Pickup_Correction.maxpat](./wintersleep-patch/-%20Pickup_Correction.maxpat) serving as its preparation patch and including a regularisation control. Smoothing is baked in; bounds handling is in the call patch and mapped to 44.1 kHz. Review smoothing, bounds handling (including whether it belongs in the IR patch), and rolloff below MIDI note 46. |
-| Capture | **Partial** | Circular buffering and buffer copying/collection exist in [Capture_Circular_Buffer.maxpat](./wintersleep-patch/Capture_Circular_Buffer.maxpat) and [Capture_Buffers.maxpat](./wintersleep-patch/Capture_Buffers.maxpat). The buffer defaults to three minutes with no direct duration control. Connecting descriptor analysis to capture remains a TODO; bundling realtime analysis with buffers needs a decision. |
-| Hardware input | **Implemented** | Launch Control faders, encoders, and buttons exist in [Controller_LaunchControl.maxpat](./wintersleep-patch/Controller_LaunchControl.maxpat). Review all-MIDI-input versus targeted-port behavior, extra controls/display/LEDs, and message normalization; labels and static colors can be assigned in the editor. |
-| Descriptor-frame analysis | **Partial** | [Analysis_Descriptor_Frame.maxpat](./wintersleep-patch/Analysis_Descriptor_Frame.maxpat) provides descriptor-frame analysis for offline use. Realtime-specific adaptation and the remaining secondary/partial-analysis code are TODOs. |
-| Realtime analysis | **Partial** | Offline descriptor-frame analysis exists, but its realtime-specific adaptation and integration with capture/mapping remain unfinished. |
-| Offline sample processing | **Partial** | Descriptor-frame analysis is available for offline use. A broader captured-sample pipeline for alternative representations or categorisation is not identified. |
-| Sample choice and playback | **Not found** | Content-aware/randomised selection, captured-sample playback, and additive resynthesis are not identified. |
-| Randomisation | **Partial** | Randomisation utility patches are present; building further modules and combinations remains a TODO. Review the reported duplicate-group behavior in Random_Groups, currently used in drift shadow. |
-| Mapping, mid-level control, and timing | **Not found** | No implementations of these planned modules are identified. |
-| Score activity model | **Open** | Modeling the basic score activities and deciding where timing/randomisation should be contextual remain problems to solve. |
+| **Audio input** | **Implemented** | Mic and pickup are processed separately; both have an 80 Hz/order 8 high-pass filter, and pickup compensation and a circular input buffer are present in [Module_Input.maxpat](./wintersleep-patch/Module_Input.maxpat). Only pickup feeds capture; the mic remains available for other potential uses. Parameter-setting mechanisms for the piece remain to be reviewed. Realtime-analysis routing is a separate system-level question. |
+| **Compensation** | **Implemented** | Offline rolloff, body-IR, and transposition patches exist. Realtime compensation is implemented in [Compensate_Realtime.maxpat](./wintersleep-patch/Compensate_Realtime.maxpat), with [- Pickup_Correction.maxpat](./wintersleep-patch/-%20Pickup_Correction.maxpat) serving as its preparation patch and including a regularisation control. Smoothing is baked in; bounds handling is in the call patch and mapped to 44.1 kHz. Review smoothing, bounds handling (including whether it belongs in the IR patch), and rolloff below MIDI note 46. |
+| **Capture** | **Partial** | Circular buffering and buffer copying/collection exist in [Capture_Circular_Buffer.maxpat](./wintersleep-patch/Capture_Circular_Buffer.maxpat) and [Capture_Buffers.maxpat](./wintersleep-patch/Capture_Buffers.maxpat). The buffer defaults to three minutes with no direct duration control. Connecting descriptor analysis to capture remains a TODO; bundling realtime analysis with buffers needs a decision. |
+| **Hardware input** | **Implemented** | Launch Control faders, encoders, and buttons exist in [Controller_LaunchControl.maxpat](./wintersleep-patch/Controller_LaunchControl.maxpat). Review all-MIDI-input versus targeted-port behavior, extra controls/display/LEDs, and message normalization; labels and static colors can be assigned in the editor. |
+| **Descriptor-frame analysis** | **Partial** | [Analysis_Descriptor_Frame.maxpat](./wintersleep-patch/Analysis_Descriptor_Frame.maxpat) provides descriptor-frame analysis for offline use. Realtime-specific adaptation and the remaining secondary/partial-analysis code are TODOs. |
+| **Realtime analysis** | **Partial** | Offline descriptor-frame analysis exists, but its realtime-specific adaptation and integration with capture/mapping remain unfinished. |
+| **Offline sample processing** | **Partial** | Descriptor-frame analysis is available for offline use. A broader captured-sample pipeline for alternative representations or categorisation is not identified. |
+| **Sample choice and playback** | **Not found** | Content-aware/randomised selection, captured-sample playback, and additive resynthesis are not identified. |
+| **Randomisation** | **Partial** | Randomisation utility patches are present; building further modules and combinations remains a TODO. Review the reported duplicate-group behavior in Random_Groups, currently used in drift shadow. |
+| **Mapping, mid-level control, and timing** | **Not found** | No implementations of these planned modules are identified. |
+| **Score activity model** | **Open** | Modeling the basic score activities and deciding where timing/randomisation should be contextual remain problems to solve. |
