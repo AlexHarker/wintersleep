@@ -28,6 +28,9 @@
 - may categorise samples
 - data available to sample choice module
 
+**Stats elements** (supports both types of analysis)
+- Mean / Median / Std deviation / Peak
+
 **Sample choice module**
 - some combination of randomisation and content-aware choices based on the content of captured audio chunks
 
