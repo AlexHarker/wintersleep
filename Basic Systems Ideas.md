@@ -24,8 +24,7 @@
 
 **Offline processing/analysis module**
 - derives audio descriptors (similar to realtime analysis)
-- derives any alternative representations
-- may categorise samples
+- derives any alternative representations (e.g. partials or spectral freeze coefficients)
 - data available to sample choice module
 
 **Stats elements** (supports both types of analysis)
@@ -59,6 +58,7 @@
 
 **Mid-level module**
 - generates directly the parameters for the randomisations/timings/playback modules
+- may do categorisation of materials
 
 
 **PROBLEMS TO SOLVE**
@@ -71,9 +71,9 @@ Status reflects inspection of the available patches and notes, not runtime testi
 
 - **Audio input processing** — IMPLEMENTED: mic and pickup are processed separately; both have an 80 Hz/order 8 high-pass filter, and pickup compensation and a circular input buffer are present in [Module_Input.maxpat](./wintersleep-patch/Module_Input.maxpat). Only pickup audio feeds capture; the mic remains available for other potential uses. Mechanisms for setting parameters for the piece remain to be reviewed. Realtime-analysis routing is a separate system-level question.
 - **Compensation** — IMPLEMENTED: offline rolloff, body-IR, and transposition patches exist ([Compensate_Rolloff.maxpat](./wintersleep-patch/Compensate_Rolloff.maxpat), [Compensate_BodyIR.maxpat](./wintersleep-patch/Compensate_BodyIR.maxpat), [Compensate_Transpose.maxpat](./wintersleep-patch/Compensate_Transpose.maxpat)). Realtime compensation is implemented in [Compensate_Realtime.maxpat](./wintersleep-patch/Compensate_Realtime.maxpat), with [- Pickup_Correction.maxpat](./wintersleep-patch/-%20Pickup_Correction.maxpat) serving as its preparation patch and including a regularisation control. Smoothing is currently baked in; bounds handling is in the call patch and mapped to 44.1 kHz. Review whether to expose/fix smoothing, move bounds handling into the IR patch, handle bounds more generally in additive processing, and clip rolloff below MIDI note 46.
-- **Realtime analysis** — PARTIAL: [Analysis_Descriptors_RT.maxpat](./wintersleep-patch/Analysis_Descriptors_RT.maxpat) wraps descriptor-frame analysis for realtime audio. Decisions about secondary analysis and additional partial-analysis code remain open.
+- **Realtime analysis** — PARTIAL: [Analysis_Descriptors_RT.maxpat](./wintersleep-patch/Analysis_Descriptors_RT.maxpat) wraps descriptor-frame analysis for realtime audio. Realtime secondary-analysis decisions and additional partial-analysis code remain open.
 - **Capture** — PARTIAL: circular buffering and buffer copying/collection are present in [Capture_Circular_Buffer.maxpat](./wintersleep-patch/Capture_Circular_Buffer.maxpat) and [Capture_Buffers.maxpat](./wintersleep-patch/Capture_Buffers.maxpat). The buffer defaults to three minutes and has no direct duration control. Offline frames can be extracted from buffered audio, but adding analysis to the capture workflow remains a TODO; bundling realtime analysis with buffers needs a decision.
-- **Offline sample processing** — PARTIAL: [Analysis_NRT_ToFrames.maxpat](./wintersleep-patch/Analysis_NRT_ToFrames.maxpat) extracts frames from buffered audio for [Analysis_Descriptor_Frame.maxpat](./wintersleep-patch/Analysis_Descriptor_Frame.maxpat). [Analysis_List_Stats.maxpat](./wintersleep-patch/Analysis_List_Stats.maxpat) computes list statistics, and [Utility_Gate_Other.maxpat](./wintersleep-patch/Utility_Gate_Other.maxpat) provides descriptor gating. Decisions about secondary analysis and additional partial-analysis code remain open; a broader alternative-representation or categorisation pipeline is not identified.
+- **Offline sample processing** — PARTIAL: [Analysis_NRT_Buffer_Analysis.maxpat](./wintersleep-patch/Analysis_NRT_Buffer_Analysis.maxpat) analyses buffered audio using [Analysis_NRT_ToFrames.maxpat](./wintersleep-patch/Analysis_NRT_ToFrames.maxpat), [Analysis_Descriptor_Frame.maxpat](./wintersleep-patch/Analysis_Descriptor_Frame.maxpat), and per-descriptor [Analysis_NRT_Stats.maxpat](./wintersleep-patch/Analysis_NRT_Stats.maxpat). Descriptor gating is also present in [Utility_Gate_Other.maxpat](./wintersleep-patch/Utility_Gate_Other.maxpat). Offline secondary-analysis decisions are made; edge handling/excluding non-useful frames and remaining partial-analysis code are TODOs. A broader alternative-representation or categorisation pipeline is not identified.
 - **Sample choice** — NOT FOUND: content-aware or sample-based selection is not identified.
 - **Playback** — NOT FOUND: captured-sample playback and additive resynthesis are not identified.
 - **Randomisation** — PARTIAL: randomisation utility patches are present; building further modules and combinations remains a TODO. Review the reported duplicate-group behavior in Random_Groups (currently used in drift shadow).
