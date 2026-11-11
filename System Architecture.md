@@ -230,6 +230,7 @@ The statuses below are additions to the proposed architecture above, not changes
 | **Offline sample processing** | **Partial** | [Analysis_NRT_Buffer_Analysis.maxpat](./wintersleep-patch/Analysis_NRT_Buffer_Analysis.maxpat) implements a buffered-audio analysis workflow using frame extraction, descriptor analysis, per-descriptor statistics, and gating. Edge handling/excluding non-useful frames and remaining partial-analysis code are TODOs. A broader pipeline for alternative representations or categorisation is not identified. |
 | **Sample choice** | **Not found** | Content-aware or sample-based selection is not identified. |
 | **Playback** | **Not found** | Captured-sample playback and additive resynthesis are not identified. |
+| **Synthesis** | **Partial** | [DSP_Oscillator.maxpat](./wintersleep-patch/DSP_Oscillator.maxpat) provides an oscillator with FM, Chebyshev harmonic shaping, and noise/resonance control. Integration with the playback and control modules is not identified. |
 | **Randomisation** | **Partial** | Randomisation utility patches are present; building further modules and combinations remains a TODO. Review the reported duplicate-group behavior in Random_Groups, currently used in drift shadow. |
 | **Timing control** | **Not found** | No implementation is identified in the available patches. |
 | **Mapping** | **Not found** | No implementation is identified in the available patches. |
