@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "0e259588944aec43",
+        "id": "87df8be075cb8477",
         "type": "tabs",
         "children": [
           {
-            "id": "04421bc568224d2c",
+            "id": "7c553ed4ae6d0772",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "wintersleep-patch/docs/Patch Progress + Notes.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Patch Progress + Notes"
+              "title": "New tab"
             }
           }
         ]
@@ -171,21 +167,26 @@
       "bases:Create new base": false
     }
   },
-  "active": "939908dbfdae0460",
+  "active": "7c553ed4ae6d0772",
   "lastOpenFiles": [
-    "System Architecture.md",
-    "Basic Systems Ideas.md",
-    "Test Patches/Test.maxpat",
-    "wintersleep-patch/Controller_LaunchControl.maxpat",
-    "Test Patches",
-    "untitled folder",
-    "wintersleep-patch/Controller_Block_Buttons.maxpat",
-    "wintersleep-patch/Controller_Block_Encoders 2.maxpat",
-    "wintersleep-patch/Controller_Button.maxpat",
-    "wintersleep-patch/Controller_Encoder 2.maxpat",
-    "wintersleep-patch/Controller_Block_Encoders.maxpat",
-    "wintersleep-patch/Controller_Block_Faders 2.maxpat",
     "wintersleep-patch/docs/Patch Progress + Notes.md",
+    "System Architecture.md",
+    "wintersleep-patch/Capture_Timings.maxpat",
+    "Basic Systems Ideas.md",
+    "Studies.md",
+    "Parameters.md",
+    "wintersleep-patch/Test_NRT_Analysis.maxpat",
+    "wintersleep-patch/Module_Offline_Analysis.maxpat",
+    "wintersleep-patch/Analysis_NRT_Descriptor_Analysis.maxpat",
+    "wintersleep-patch/Analysis_NRT_Analysis.maxpat",
+    "Timing Module Modes.md",
+    "wintersleep-patch/Random_Value.maxpat",
+    "wintersleep-patch/TestTiming.maxpat",
+    "wintersleep-patch/Utility_FL_Range.maxpat",
+    "wintersleep-patch/DSP_Granular.maxpat",
+    "wintersleep-patch/_Requirements",
+    "Additive System.md",
+    "wintersleep-patch/README.md",
     "To Consider.md",
     "Technique Questions.md",
     "Tasks.md",
@@ -201,9 +202,6 @@
     "marco-fusi-score/extra/glisses.jpg",
     "marco-fusi-score/extra/glisses-3.jpeg",
     "marco-fusi-score/extra/glisses-2.jpg",
-    "Parameters.md",
-    "file:/Users/smusajh/Documents/Teaching/DMP2/03 Lectures/Dark Mode Work/AIM2214 DMP2 - 03 That 80s Sound Dark Mode.md",
-    "Studies.md",
-    "Additive System.md"
+    "file:/Users/smusajh/Documents/Teaching/DMP2/03 Lectures/Dark Mode Work/AIM2214 DMP2 - 03 That 80s Sound Dark Mode.md"
   ]
 }
