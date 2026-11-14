@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "wintersleep-patch/docs/Patch Progress + Notes.md",
+                "file": "System Architecture.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Patch Progress + Notes"
+              "title": "System Architecture"
             }
           }
         ]
@@ -173,6 +173,7 @@
   },
   "active": "61ebb83aa59c27ac",
   "lastOpenFiles": [
+    "wintersleep-patch/docs/Patch Progress + Notes.md",
     "wintersleep-patch/Test_NRT_Analysis.maxpat",
     "wintersleep-patch/TestWS.maxpat",
     "wintersleep-patch/TestTiming.maxpat",
@@ -181,7 +182,6 @@
     "DSP Ideas.md",
     "System Architecture.md",
     "Basic Systems Ideas.md",
-    "wintersleep-patch/docs/Patch Progress + Notes.md",
     "wintersleep-patch/Random_Unipolar.maxpat",
     "wintersleep-patch/Random_Transpose.maxpat",
     "wintersleep-patch/Random_Bipolar.maxpat",
@@ -190,7 +190,6 @@
     "wintersleep-patch/Pattern_Rocking.maxpat",
     "wintersleep-patch/Pattern_Loop.maxpat",
     "Timing Module Modes.md",
-    "wintersleep-patch/Capture_Timings.maxpat",
     "Studies.md",
     "Parameters.md",
     "Additive System.md",
