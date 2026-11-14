@@ -1,0 +1,6 @@
+[submodule "wintersleep-patch"]
+	path = wintersleep-patch
+	url = https://github.com/AlexHarker/wintersleep-patch.git
+[submodule "wintersleep-score"]
+	path = wintersleep-score
+	url = https://github.com/AlexHarker/marco-fusi-score.git
