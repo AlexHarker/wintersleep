@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "87df8be075cb8477",
+        "id": "26e11c1061f82823",
         "type": "tabs",
         "children": [
           {
-            "id": "7c553ed4ae6d0772",
+            "id": "61ebb83aa59c27ac",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "wintersleep-patch/docs/Patch Progress + Notes.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Patch Progress + Notes"
             }
           }
         ]
@@ -167,33 +171,33 @@
       "bases:Create new base": false
     }
   },
-  "active": "7c553ed4ae6d0772",
+  "active": "61ebb83aa59c27ac",
   "lastOpenFiles": [
-    "wintersleep-patch/docs/Patch Progress + Notes.md",
+    "Optimisation.md",
+    "Harmonies.md",
+    "DSP Ideas.md",
     "System Architecture.md",
-    "wintersleep-patch/Capture_Timings.maxpat",
     "Basic Systems Ideas.md",
+    "wintersleep-patch/docs/Patch Progress + Notes.md",
+    "wintersleep-patch/Random_Unipolar.maxpat",
+    "wintersleep-patch/Random_Transpose.maxpat",
+    "wintersleep-patch/Random_Bipolar.maxpat",
+    "wintersleep-patch/Voice_Partial.maxpat",
+    "wintersleep-patch/Pattern_Static.maxpat",
+    "wintersleep-patch/Pattern_Rocking.maxpat",
+    "wintersleep-patch/Pattern_Loop.maxpat",
+    "Timing Module Modes.md",
+    "wintersleep-patch/Capture_Timings.maxpat",
     "Studies.md",
     "Parameters.md",
     "wintersleep-patch/Test_NRT_Analysis.maxpat",
     "wintersleep-patch/Module_Offline_Analysis.maxpat",
-    "wintersleep-patch/Analysis_NRT_Descriptor_Analysis.maxpat",
-    "wintersleep-patch/Analysis_NRT_Analysis.maxpat",
-    "Timing Module Modes.md",
-    "wintersleep-patch/Random_Value.maxpat",
-    "wintersleep-patch/TestTiming.maxpat",
-    "wintersleep-patch/Utility_FL_Range.maxpat",
-    "wintersleep-patch/DSP_Granular.maxpat",
-    "wintersleep-patch/_Requirements",
     "Additive System.md",
     "wintersleep-patch/README.md",
     "To Consider.md",
     "Technique Questions.md",
     "Tasks.md",
     "Basic Ideas.md",
-    "DSP Ideas.md",
-    "Harmonies.md",
-    "Optimisation.md",
     "Score To Do.md",
     "marco-fusi-score/KEY-NOTATIONS.md",
     "marco-fusi-score/KEY-FOR-PERFORMER.md",
