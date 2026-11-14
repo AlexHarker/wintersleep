@@ -54,6 +54,8 @@ flowchart TB
         Randomisation[Randomisation Controller]
         Timing[Timing and Behaviour Control]
         BehaviourPatterns[Segment-Selection Patterns]
+        DriveRamps[Drive Ramps]
+        FrameTraversal[Frame Traversal]
     end
     
     subgraph Input_Hardware["Hardware Input Module"]
@@ -88,6 +90,9 @@ flowchart TB
     Randomisation --> BehaviourPatterns
     Timing -.->|timing control proposed| BehaviourPatterns
     BehaviourPatterns -.->|segment selection proposed| Sample_Choice
+    DriveRamps -.->|ramp input| FrameTraversal
+    DriveRamps -.->|granular position| Playback
+    FrameTraversal -.->|frame-based playback| Playback
     
     style AudioInput fill:#e3f2fd
     style Realtime_Analysis fill:#fff9c4
@@ -219,7 +224,7 @@ The statuses below are additions to the proposed architecture above, not changes
 | **Spectral partial tracking** | **Implemented** | [Analysis_Peaks.maxpat](./wintersleep-patch/Analysis_Peaks.maxpat) derives spectral peaks; [Analysis_Track_Segment.maxpat](./wintersleep-patch/Analysis_Track_Segment.maxpat) turns peaks into tracks for a segment using frame-driving code. | — | — |
 | **Randomisation** | **Implemented** | Randomisation utility patches are present. | Consider whether further modules are needed; review the reported duplicate-group behavior in Random_Groups, currently used in drift shadow. The notes suggest it may relate to how the Urn implementation operates across chosen items. | — |
 | **Realtime analysis** | **Partial** | [Analysis_Descriptors_RT.maxpat](./wintersleep-patch/Analysis_Descriptors_RT.maxpat) wraps descriptor-frame analysis for realtime audio. Mapping integration is not identified; see Mapping. | — | Decide on secondary realtime analysis; this affects realtime analysis, not frame-based analysis. |
-| **Playback** | **Partial** | [Voice_Partial.maxpat](./wintersleep-patch/Voice_Partial.maxpat) provides additive resynthesis using [DSP_Oscillator.maxpat](./wintersleep-patch/DSP_Oscillator.maxpat) and related DSP components; the patch notes say it avoids aliasing internally. The voice uses dynamic.this~ and dynamic.out~. [DSP_Granular.maxpat](./wintersleep-patch/DSP_Granular.maxpat) provides a basic framelib granular patch; wider voice management is not yet in place. | Review panning: additive has none yet; granular is stereo and could be panned at voice level to quad or made inherently quad per voice. Review how much of the additive voice should be dynamically controllable and integration with control modules. | Build voice management and address voice-level concerns, including moving to dynamicdsp~. |
+| **Playback** | **Partial** | [Voice_Partial.maxpat](./wintersleep-patch/Voice_Partial.maxpat) provides additive resynthesis using [DSP_Oscillator.maxpat](./wintersleep-patch/DSP_Oscillator.maxpat) and related DSP components; the patch notes say it avoids aliasing internally. The voice uses dynamic.this~ and dynamic.out~; filtering times and partial delays are in milliseconds. [DSP_Granular.maxpat](./wintersleep-patch/DSP_Granular.maxpat) provides a basic framelib granular patch; wider voice management is not yet in place. | Review panning: additive has none yet; granular is stereo and could be panned at voice level to quad or made inherently quad per voice. Consider whether additive voice parameters need dynamic control and whether removing sig~ objects could save resources; review integration with control modules. | Build voice management and address voice-level concerns. |
 | **Sample choice** | **Partial** | Segment-selection patterns exist in timing and behaviour control. An integrated sample-choice module and content-aware selection are not identified. | — | — |
-| **Timing and behaviour** | **Partial** | Timing and behaviour control is intended to model basic score activities and control playback. [Pattern_Static.maxpat](./wintersleep-patch/Pattern_Static.maxpat), [Pattern_Loop.maxpat](./wintersleep-patch/Pattern_Loop.maxpat), and [Pattern_Rocking.maxpat](./wintersleep-patch/Pattern_Rocking.maxpat) use randomisation to control segment selection and map to behaviour types in the score. | Decide where timing/randomisation should be embedded or contextual. | Work on timing elements. |
+| **Timing and behaviour** | **Partial** | Timing and behaviour control is intended to model basic score activities and control playback. [Pattern_Static.maxpat](./wintersleep-patch/Pattern_Static.maxpat), [Pattern_Loop.maxpat](./wintersleep-patch/Pattern_Loop.maxpat), and [Pattern_Rocking.maxpat](./wintersleep-patch/Pattern_Rocking.maxpat) use randomisation to control segment selection and map to behaviour types in the score. [Drive_Ramps.maxpat](./wintersleep-patch/Drive_Ramps.maxpat) provides timing ramps that can drive granular position; [Drive_Frame_Traversal.maxpat](./wintersleep-patch/Drive_Frame_Traversal.maxpat) supports ramp-driven frame playback. | Decide where timing/randomisation should be embedded or contextual. | Develop score-based behaviours that combine patterns and timing. |
 | **Mapping** | **Not found** | No implementation is identified in the available patches. The proposed mapping module generates parameters for randomisation, timing, and playback, and may categorise materials. | — | — |
