@@ -58,6 +58,3 @@
 - might involve neural network based mappings
 - generates directly the parameters for the randomisations/timings/playback modules
 - may do categorisation of materials
-
-**PROBLEMS TO SOLVE**
-- Figure out where randomisation or timing needs to be embedded/contextual

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "wintersleep-patch/docs/Patch Progress + Notes.md",
+                "file": "System Architecture.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Patch Progress + Notes"
+              "title": "System Architecture"
             }
           }
         ]
@@ -173,24 +173,23 @@
   },
   "active": "61ebb83aa59c27ac",
   "lastOpenFiles": [
-    "wintersleep-patch/Drive_Segment_Info.maxpat",
-    "System Architecture.md",
     "wintersleep-patch/docs/Patch Progress + Notes.md",
+    "System Architecture.md",
+    "Basic Systems Ideas.md",
+    "Timing Module Modes.md",
+    "wintersleep-patch/Behaviour_Static.maxpat",
+    "wintersleep-patch/Behaviour_Loop.maxpat",
+    "wintersleep-patch/Behaviour_Rocking.maxpat",
+    "wintersleep-patch/Drive_Segment_Info.maxpat",
     "wintersleep-patch/Reference/Random_Rocking.maxpat",
     "wintersleep-patch/Reference/Random_Random.maxpat",
     "wintersleep-patch/Reference/Random_Prob.maxpat",
     "wintersleep-patch/Reference/Random_Not.maxpat",
     "wintersleep-patch/Reference/Random_List_Walk.maxpat",
     "wintersleep-patch/Reference/Random_List_Urn.maxpat",
-    "wintersleep-patch/Reference/Random_List_Change.maxpat",
-    "wintersleep-patch/Reference/Random_Change_Not.maxpat",
-    "wintersleep-patch/Reference/Random_Change.maxpat",
-    "wintersleep-patch/Drive_Frame_Traversal.maxpat",
     "Optimisation.md",
     "Harmonies.md",
     "DSP Ideas.md",
-    "Basic Systems Ideas.md",
-    "Timing Module Modes.md",
     "Studies.md",
     "Parameters.md",
     "Additive System.md",
