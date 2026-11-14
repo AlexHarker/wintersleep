@@ -173,6 +173,9 @@
   },
   "active": "61ebb83aa59c27ac",
   "lastOpenFiles": [
+    "wintersleep-patch/Test_NRT_Analysis.maxpat",
+    "wintersleep-patch/TestWS.maxpat",
+    "wintersleep-patch/TestTiming.maxpat",
     "Optimisation.md",
     "Harmonies.md",
     "DSP Ideas.md",
@@ -190,8 +193,6 @@
     "wintersleep-patch/Capture_Timings.maxpat",
     "Studies.md",
     "Parameters.md",
-    "wintersleep-patch/Test_NRT_Analysis.maxpat",
-    "wintersleep-patch/Module_Offline_Analysis.maxpat",
     "Additive System.md",
     "wintersleep-patch/README.md",
     "To Consider.md",
