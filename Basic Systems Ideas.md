@@ -44,23 +44,20 @@
 - Create random parameters from some flat/fixed set of parameters/data
 - control timing modules or playback modules
 
-**Timing control modules**
+**Timing and behaviour control modules**
 - control playback modules
 - likely controlled by randomisation (so randomisation modules)
+- these model the the basic types of activity from the score
 
 **Hardware Input module**
 - maps midi control or other hardware input to generic controller messages (abstracts hardware from mapping module)
 
 **Mapping Module**
-- takes realtime analysis output and also hardware input and controls mid-level module
+- takes realtime analysis output and also hardware input
 - might be based on mapping to presets or time-varying presets
 - might involve neural network based mappings
-
-**Mid-level module**
 - generates directly the parameters for the randomisations/timings/playback modules
 - may do categorisation of materials
 
-
 **PROBLEMS TO SOLVE**
-- Model the basic types of activity from the score
 - Figure out where randomisation or timing needs to be embedded/contextual

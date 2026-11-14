@@ -28,10 +28,14 @@ flowchart TB
     subgraph Capture["Capture Module"]
         CircularBuffer[Circular Buffer]
         TriggerCapture[Trigger-Based Capture]
+        subgraph Offline_Analysis["Offline Analysis Module"]
+            DeriveDescriptors[Audio Descriptor Extraction]
+            PartialTracks[Spectral Partial Tracking]
+        end
+        TriggerCapture -->|captured chunks| Offline_Analysis
     end
     
-    subgraph Offline_Processing["Offline Processing Module"]
-        DeriveDescriptors[Audio Descriptor Extraction]
+    subgraph Offline_Processing["Additional Offline Processing (proposed)"]
         AlternativeReps[Alternative Representations]
         Categorise[Sample Categorisation]
     end
@@ -48,7 +52,8 @@ flowchart TB
     
     subgraph Control["Meta-Control Modules"]
         Randomisation[Randomisation Controller]
-        Timing[Timing Control]
+        Timing[Timing and Behaviour Control]
+        BehaviourPatterns[Segment-Selection Patterns]
     end
     
     subgraph Input_Hardware["Hardware Input Module"]
@@ -60,38 +65,40 @@ flowchart TB
         PresetMap[Preset-Based Mapping]
         TimeVar[Time-Varying Presets]
         NeuralMap[Neural Network Mappings]
-    end
-    
-    subgraph MidLevel["Mid-Level Controller"]
         ParameterGen[Parameter Generation]
         TriggerGen[Trigger/Event Generation]
+        MaterialCategorisation[Material Categorisation - possible]
     end
     
     PickupProcessing -->|pickup audio only| Capture
     AnalysisInput --> Realtime_Analysis
     
     Realtime_Analysis -->|descriptors| Mapping
-    Capture -->|captured chunks| Offline_Processing
+    Offline_Analysis -->|analysis results| Offline_Processing
     Mapping --> Sample_Choice
     Offline_Processing -->|audio/metadata| Sample_Choice
     
     Sample_Choice --> Playback
     Mapping --> Control
-    Hardware_Input -->|abstracted control| Mapping
+    Mapping -->|parameters| Playback
+    Input_Hardware -->|abstracted control| Mapping
     
     Randomisation --> Timing
     Timing --> Playback
+    Randomisation --> BehaviourPatterns
+    Timing -.->|timing control proposed| BehaviourPatterns
+    BehaviourPatterns -.->|segment selection proposed| Sample_Choice
     
     style AudioInput fill:#e3f2fd
     style Realtime_Analysis fill:#fff9c4
     style Capture fill:#e8f5e9
+    style Offline_Analysis fill:#fce4ec
     style Offline_Processing fill:#fce4ec
     style Sample_Choice fill:#ffe0b2
     style Playback fill:#e1f5fe
     style Control fill:#f3e5f5
     style Input_Hardware fill:#ffccbc
     style Mapping fill:#c8e6c9
-    style MidLevel fill:#bbdefb
 ```
 
 ## **Dataflow Representation**
@@ -128,6 +135,8 @@ graph LR
 ```
 
 ## **Score Activity Model**
+
+Conceptual activity types for the timing and behaviour control modules.
 
 ```mermaid
 mindmap
@@ -176,7 +185,7 @@ sequenceDiagram
     participant Analysis as Realtime Analysis
     participant Capture as Capture Module
     participant Mapping as Mapping Module
-    participant Offline as Offline Processing
+    participant Offline as Offline Analysis (within Capture)
     participant Choice as Sample Choice
     participant Playback as Playback
     
@@ -187,7 +196,7 @@ sequenceDiagram
     Mapping->>Capture: capture trigger
     Capture->>Offline: captured chunks
     
-    Note over Offline: derives descriptors<br/>alternative representations
+    Note over Offline: derives descriptors<br/>and partial tracks
     
     Offline->>Choice: audio/metadata
     Choice->>Playback: selection decision
@@ -202,17 +211,15 @@ The statuses below are additions to the proposed architecture above, not changes
 | Area | Status | Evidence | Review | TODO |
 |---|---|---|---|---|
 | **Audio input** | **Implemented** | Mic and pickup are processed separately; both have an 80 Hz/order 8 high-pass filter. Pickup compensation and circular input buffering are present in [Module_Input.maxpat](./wintersleep-patch/Module_Input.maxpat). Only pickup feeds capture; the mic remains available for other potential uses. | Define mechanisms for setting parameters for the piece; decide the realtime-analysis input source. | — |
-| **Compensation** | **Implemented** | Offline rolloff, body-IR, and transposition patches exist: [Compensate_Rolloff.maxpat](./wintersleep-patch/Compensate_Rolloff.maxpat), [Compensate_BodyIR.maxpat](./wintersleep-patch/Compensate_BodyIR.maxpat), and [Compensate_Transpose.maxpat](./wintersleep-patch/Compensate_Transpose.maxpat). Realtime compensation is implemented in [Compensate_Realtime.maxpat](./wintersleep-patch/Compensate_Realtime.maxpat), with [- Pickup_Correction.maxpat](./wintersleep-patch/-%20Pickup_Correction.maxpat) as its preparation patch and including a regularisation control. Bounds handling is in the call patch and mapped to 44.1 kHz. | Review smoothing behavior/defaults and whether to expose settings; whether bounds handling belongs in the IR patch; bounds handling in additive processing; whether rolloff should clip below MIDI note 46. | — |
-| **Capture** | **Implemented** | Circular buffering and buffer copying/collection exist in [Capture_Circular_Buffer.maxpat](./wintersleep-patch/Capture_Circular_Buffer.maxpat) and [Capture_Buffers.maxpat](./wintersleep-patch/Capture_Buffers.maxpat). The buffer defaults to three minutes with no direct duration control. NRT buffer analysis is available separately. | Wire the capture-to-analysis workflow. | — |
+| **Compensation** | **Implemented** | Offline rolloff, body-IR, and transposition patches exist: [Compensate_Rolloff.maxpat](./wintersleep-patch/Compensate_Rolloff.maxpat), [Compensate_BodyIR.maxpat](./wintersleep-patch/Compensate_BodyIR.maxpat), and [Compensate_Transpose.maxpat](./wintersleep-patch/Compensate_Transpose.maxpat). Realtime compensation is implemented in [Compensate_Realtime.maxpat](./wintersleep-patch/Compensate_Realtime.maxpat), with [- Pickup_Correction.maxpat](./wintersleep-patch/-%20Pickup_Correction.maxpat) as its preparation patch and including a regularisation control. Bounds handling is in the call patch and mapped to 44.1 kHz. | Review smoothing behavior/defaults and whether to expose settings; whether bounds handling belongs in the IR patch; whether rolloff should clip below MIDI note 46. | — |
+| **Capture** | **Implemented** | [Module_Capture.maxpat](./wintersleep-patch/Module_Capture.maxpat) contains and directly drives [Module_Offline_Analysis.maxpat](./wintersleep-patch/Module_Offline_Analysis.maxpat). Circular buffering and buffer copying/collection exist in [Capture_Circular_Buffer.maxpat](./wintersleep-patch/Capture_Circular_Buffer.maxpat) and [Capture_Buffers.maxpat](./wintersleep-patch/Capture_Buffers.maxpat). The buffer defaults to three minutes with no direct duration control; NRT analysis is also available separately. Capture is currently instant; a delay control is routed to [Capture_Timings.maxpat](./wintersleep-patch/Capture_Timings.maxpat), but delay handling is not yet implemented there. | Consider a fixed capture delay for alignment with analysis. | — |
 | **Hardware input** | **Implemented** | Launch Control faders, encoders, and buttons exist in [Controller_LaunchControl.maxpat](./wintersleep-patch/Controller_LaunchControl.maxpat). Labels and static colors can be assigned in the editor. | Review all-MIDI-input versus targeted-port behavior, additional controls/display/LEDs, message normalization, and labeling. | — |
 | **Descriptor-frame analysis** | **Implemented** | [Analysis_Descriptor_Frame.maxpat](./wintersleep-patch/Analysis_Descriptor_Frame.maxpat) provides descriptor analysis; [Analysis_NRT_ToFrames.maxpat](./wintersleep-patch/Analysis_NRT_ToFrames.maxpat) extracts frames from buffered audio. [Analysis_NRT_Stats.maxpat](./wintersleep-patch/Analysis_NRT_Stats.maxpat) computes per-descriptor statistics; [Utility_Gate_Other.maxpat](./wintersleep-patch/Utility_Gate_Other.maxpat) provides descriptor gating. NRT secondary-analysis decisions are made. | — | — |
-| **Offline sample processing** | **Implemented** | [Analysis_NRT_Buffer_Analysis.maxpat](./wintersleep-patch/Analysis_NRT_Buffer_Analysis.maxpat) analyses buffered audio using [Analysis_NRT_ToFrames.maxpat](./wintersleep-patch/Analysis_NRT_ToFrames.maxpat), [Analysis_Descriptor_Frame.maxpat](./wintersleep-patch/Analysis_Descriptor_Frame.maxpat), per-descriptor [Analysis_NRT_Stats.maxpat](./wintersleep-patch/Analysis_NRT_Stats.maxpat), and [Utility_Gate_Other.maxpat](./wintersleep-patch/Utility_Gate_Other.maxpat) for gating. The patch notes describe an Offline Analysis module for threading and storage, with a single patch running descriptor and partial-tracking analysis; nested patches are not specified. A broader alternative-representation or categorisation pipeline is not identified. | Review storage. | — |
+| **Offline sample processing** | **Implemented** | [Module_Offline_Analysis.maxpat](./wintersleep-patch/Module_Offline_Analysis.maxpat) manages threading and storage and invokes [Analysis_NRT_Analysis.maxpat](./wintersleep-patch/Analysis_NRT_Analysis.maxpat), which runs descriptor and partial-tracking analysis. [Analysis_NRT_Descriptor_Analysis.maxpat](./wintersleep-patch/Analysis_NRT_Descriptor_Analysis.maxpat) uses [Analysis_NRT_ToFrames.maxpat](./wintersleep-patch/Analysis_NRT_ToFrames.maxpat), [Analysis_Descriptor_Frame.maxpat](./wintersleep-patch/Analysis_Descriptor_Frame.maxpat), per-descriptor [Analysis_NRT_Stats.maxpat](./wintersleep-patch/Analysis_NRT_Stats.maxpat), and [Utility_Gate_Other.maxpat](./wintersleep-patch/Utility_Gate_Other.maxpat) for gating. A broader alternative-representation or categorisation pipeline is not identified. | Review storage. | — |
 | **Spectral partial tracking** | **Implemented** | [Analysis_Peaks.maxpat](./wintersleep-patch/Analysis_Peaks.maxpat) derives spectral peaks; [Analysis_Track_Segment.maxpat](./wintersleep-patch/Analysis_Track_Segment.maxpat) turns peaks into tracks for a segment using frame-driving code. | — | — |
+| **Randomisation** | **Implemented** | Randomisation utility patches are present. | Consider whether further modules are needed; review the reported duplicate-group behavior in Random_Groups, currently used in drift shadow. The notes suggest it may relate to how the Urn implementation operates across chosen items. | — |
 | **Realtime analysis** | **Partial** | [Analysis_Descriptors_RT.maxpat](./wintersleep-patch/Analysis_Descriptors_RT.maxpat) wraps descriptor-frame analysis for realtime audio. Mapping integration is not identified; see Mapping. | — | Decide on secondary realtime analysis; this affects realtime analysis, not frame-based analysis. |
-| **Playback** | **Partial** | [DSP_Granular.maxpat](./wintersleep-patch/DSP_Granular.maxpat) provides a basic framelib granular voice. [DSP_Oscillator.maxpat](./wintersleep-patch/DSP_Oscillator.maxpat) and related DSP components provide oscillator, FM, Chebyshev harmonic shaping, and noise/resonance for additive playback. The additive voice patch and wider voice management are not yet in place. | Review granular panning (stereo with voice-level quad panning versus inherently quad per voice), how much of the additive voice should be dynamically controllable, and integration with control modules. | Finish the additive system; build voice management. |
-| **Randomisation** | **Partial** | Randomisation utility patches are present. | Review the reported duplicate-group behavior in Random_Groups, currently used in drift shadow; the notes suggest it may relate to how the Urn implementation operates across chosen items. | Build further modules and combinations. |
-| **Score activity model** | **Open** | No implemented model is identified. | Model the basic score activity types; decide where timing/randomisation should be contextual. | — |
-| **Sample choice** | **Not found** | Content-aware or sample-based selection is not identified. | — | — |
-| **Timing control** | **Not found** | No implementation is identified in the available patches. | — | — |
-| **Mapping** | **Not found** | No implementation is identified in the available patches. | — | — |
-| **Mid-level control** | **Not found** | No implementation is identified in the available patches. | — | — |
+| **Playback** | **Partial** | [Voice_Partial.maxpat](./wintersleep-patch/Voice_Partial.maxpat) provides additive resynthesis using [DSP_Oscillator.maxpat](./wintersleep-patch/DSP_Oscillator.maxpat) and related DSP components. [DSP_Granular.maxpat](./wintersleep-patch/DSP_Granular.maxpat) provides a basic framelib granular patch; wider voice management is not yet in place. | Review granular panning (stereo with voice-level quad panning versus inherently quad per voice), how much of the additive voice should be dynamically controllable, aliasing or out-of-bounds frequencies, and integration with control modules. | Finish review of the additive system; build voice management and address voice-level concerns. |
+| **Sample choice** | **Partial** | Segment-selection patterns exist in timing and behaviour control. An integrated sample-choice module and content-aware selection are not identified. | — | — |
+| **Timing and behaviour** | **Partial** | Timing and behaviour control is intended to model basic score activities and control playback. [Pattern_Static.maxpat](./wintersleep-patch/Pattern_Static.maxpat), [Pattern_Loop.maxpat](./wintersleep-patch/Pattern_Loop.maxpat), and [Pattern_Rocking.maxpat](./wintersleep-patch/Pattern_Rocking.maxpat) use randomisation to control segment selection and map to behaviour types in the score. | Decide where timing/randomisation should be embedded or contextual. | Work on timing elements. |
+| **Mapping** | **Not found** | No implementation is identified in the available patches. The proposed mapping module generates parameters for randomisation, timing, and playback, and may categorise materials. | — | — |
