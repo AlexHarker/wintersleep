@@ -175,6 +175,7 @@
   "lastOpenFiles": [
     "wintersleep-patch/docs/Patch Progress + Notes.md",
     "System Architecture.md",
+    "wintersleep-patch/Behaviour_Segment_Ramps.maxpat",
     "Basic Systems Ideas.md",
     "Timing Module Modes.md",
     "wintersleep-patch/Behaviour_Static.maxpat",
@@ -186,7 +187,6 @@
     "wintersleep-patch/Reference/Random_Prob.maxpat",
     "wintersleep-patch/Reference/Random_Not.maxpat",
     "wintersleep-patch/Reference/Random_List_Walk.maxpat",
-    "wintersleep-patch/Reference/Random_List_Urn.maxpat",
     "Optimisation.md",
     "Harmonies.md",
     "DSP Ideas.md",
