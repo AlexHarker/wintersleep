@@ -2,6 +2,8 @@
 
 ## **Main Architecture Diagram**
 
+Dashed links represent proposed or not-yet-identified integrations.
+
 ```mermaid
 flowchart TB
     subgraph Audio_Input["Audio Input Module"]
@@ -32,6 +34,7 @@ flowchart TB
             DeriveDescriptors[Audio Descriptor Extraction]
             PartialTracks[Spectral Partial Tracking]
         end
+        CircularBuffer --> TriggerCapture
         TriggerCapture -->|captured chunks| Offline_Analysis
     end
     
@@ -77,29 +80,32 @@ flowchart TB
         MaterialCategorisation[Material Categorisation - possible]
     end
     
-    PickupProcessing -->|pickup audio only| Capture
-    AnalysisInput --> Realtime_Analysis
-    
-    Realtime_Analysis -->|descriptors| Mapping
-    Offline_Analysis -->|analysis results| Offline_Processing
-    Mapping --> Sample_Choice
-    Offline_Processing -->|audio/metadata| Sample_Choice
-    
-    Sample_Choice --> Playback
-    Mapping --> Control
-    Mapping -->|parameters| Playback
-    Input_Hardware -->|abstracted control| Mapping
-    
-    Randomisation --> Timing
-    Timing --> Playback
+    PickupProcessing -->|pickup audio only| CircularBuffer
+    AnalysisInput -.-> Realtime_Analysis
+
+    Realtime_Analysis -.->|descriptors| Mapping
+    Mapping -.->|capture trigger| TriggerCapture
+    Offline_Analysis -.->|analysis results| Offline_Processing
+    Offline_Analysis -.->|metadata| Sample_Choice
+    Offline_Processing -.->|additional metadata| Sample_Choice
+    Mapping -.-> Sample_Choice
+
+    TriggerCapture -.->|captured audio| Playback
+    Offline_Analysis -.->|metadata| Playback
+    Sample_Choice -.->|selection| Playback
+    Mapping -.-> Control
+    Mapping -.->|parameters| Playback
+    Input_Hardware -.->|abstracted control| Mapping
+
+    Randomisation -.-> Timing
+    Timing -.-> Playback
     Randomisation --> BehaviourPatterns
-    Timing -.->|timing control proposed| BehaviourPatterns
     BehaviourPatterns -.->|segment selection proposed| Sample_Choice
     DriveRamps -.->|ramp input| FrameTraversal
     DriveRamps -.->|granular position| Playback
     FrameTraversal -.->|frame-based playback| Playback
     
-    style AudioInput fill:#e3f2fd
+    style Audio_Input fill:#e3f2fd
     style Realtime_Analysis fill:#fff9c4
     style Capture fill:#e8f5e9
     style Offline_Analysis fill:#fce4ec
@@ -113,15 +119,20 @@ flowchart TB
 
 ## **Dataflow Representation**
 
+This is a conceptual dataflow; connections to mapping, sample choice, and playback are not yet identified as integrated.
+
 ```mermaid
 graph LR
     subgraph Input_Layer["Input Layer"]
-        A[Audio Stream]
+        A[Pickup Audio]
+        R[Realtime-analysis input source TBD]
         B[MIDI/Hardware]
     end
     
     subgraph Processing_Layer["Processing Layer"]
-        C[Analysis & Feature Extraction]
+        CaptureData[Capture]
+        Offline[Offline Analysis]
+        C[Realtime Analysis]
         D[Mapping & Transformation]
     end
     
@@ -131,60 +142,50 @@ graph LR
     end
     
     subgraph Output_Layer["Output Layer"]
-        G[Synthesized Audio]
-        H[Playback Events]
+        PlaybackData[Playback]
+        G[Audio Output]
     end
     
-    A --> C
+    A --> CaptureData
+    CaptureData --> Offline
+    R --> C
     B --> D
     C -->|features| D
+    D -->|capture trigger| CaptureData
     D -->|mapping decisions| E
-    E --> G
-    F --> G
-    F --> H
+    D -->|parameters| F
+    D -->|parameters| PlaybackData
+    CaptureData -->|captured audio| PlaybackData
+    Offline -->|metadata| E
+    Offline -->|metadata| PlaybackData
+    E -->|selection| PlaybackData
+    F -->|timing and control| PlaybackData
+    PlaybackData --> G
 ```
 
 ## **Score Activity Model**
 
-Conceptual activity types for the timing and behaviour control modules.
+The [timing module notes](./Timing%20Module%20Modes.md) relate score activity types to the electronics' behaviour modes. Arcs have no direct electronic equivalent identified there.
 
 ```mermaid
-mindmap
-  root((Score Structure))
-    Basic_Activity_Types
-      Onset
-        Attack_Envelope
-        Timbral_Change
-      Sustain
-        Static_Hold
-        Slow_Evolution
-      Transition
-        Fade_In_Out
-        Abrupt_Change
-    Randomisation_Embedding_Points
-      Parameter_Level
-        Timbral_Parameters
-        Dynamics
-      Timing_Level
-      Score_Structure_Level
-```
+flowchart LR
+    subgraph Score["Score activity types"]
+        ScoreLinear[Linear]
+        ScoreLoop[Loop]
+        ScoreStatic[Static]
+        ScoreRocking[Rocking]
+        ScoreArcs[Arcs]
+    end
+    subgraph Electronics["Electronic behaviour modes"]
+        Loop[Loop]
+        Static[Static]
+        Rocking[Rocking]
+    end
 
-## **State Machine for Activity Modeling**
-
-```mermaid
-stateDiagram
-    [*] --> Idle
-    
-    Idle --> Onset: trigger detected
-    Onset --> Sustain: envelope reached
-    Onset --> Transition: quick decay
-    
-    Sustain --> Sustain: gradual evolution
-    Sustain --> Fade: fade indicator
-    Sustain --> Randomise: randomisation trigger
-    
-    Transition --> End: resolution reached
-    Fade --> [*]: complete
+    ScoreLinear -->|one-shot| Loop
+    ScoreLoop --> Loop
+    ScoreStatic --> Static
+    ScoreRocking --> Rocking
 ```
 
 ## **Module Interaction Details**
@@ -228,8 +229,8 @@ The statuses below are additions to the proposed architecture above, not changes
 | **Offline sample processing** | **Implemented** | [Module_Offline_Analysis.maxpat](./wintersleep-patch/Module_Offline_Analysis.maxpat) manages threading and storage and invokes [Analysis_NRT_Analysis.maxpat](./wintersleep-patch/Analysis_NRT_Analysis.maxpat), which runs descriptor and partial-tracking analysis. [Analysis_NRT_Descriptor_Analysis.maxpat](./wintersleep-patch/Analysis_NRT_Descriptor_Analysis.maxpat) uses [Analysis_NRT_ToFrames.maxpat](./wintersleep-patch/Analysis_NRT_ToFrames.maxpat), [Analysis_Descriptor_Frame.maxpat](./wintersleep-patch/Analysis_Descriptor_Frame.maxpat), per-descriptor [Analysis_NRT_Stats.maxpat](./wintersleep-patch/Analysis_NRT_Stats.maxpat), and [Utility_Gate_Other.maxpat](./wintersleep-patch/Utility_Gate_Other.maxpat) for gating. A broader alternative-representation or categorisation pipeline is not identified. | Review storage. | — |
 | **Spectral partial tracking** | **Implemented** | [Analysis_Peaks.maxpat](./wintersleep-patch/Analysis_Peaks.maxpat) derives spectral peaks; [Analysis_Track_Segment.maxpat](./wintersleep-patch/Analysis_Track_Segment.maxpat) turns peaks into tracks for a segment using frame-driving code. | — | — |
 | **Randomisation** | **Implemented** | Randomisation utility patches are present. | — | — |
+| **Timing and behaviour** | **Implemented** | Timing and behaviour control is intended to model basic score activities and control playback. [Pattern_Static.maxpat](./wintersleep-patch/Pattern_Static.maxpat), [Pattern_Loop.maxpat](./wintersleep-patch/Pattern_Loop.maxpat), and [Pattern_Rocking.maxpat](./wintersleep-patch/Pattern_Rocking.maxpat) use randomisation to control segment selection and map to behaviour types in the score. [Behaviour_Static.maxpat](./wintersleep-patch/Behaviour_Static.maxpat), [Behaviour_Loop.maxpat](./wintersleep-patch/Behaviour_Loop.maxpat), and [Behaviour_Rocking.maxpat](./wintersleep-patch/Behaviour_Rocking.maxpat) combine patterns with [segment information](./wintersleep-patch/Drive_Segment_Info.maxpat) and [timing ramps](./wintersleep-patch/Drive_Ramps.maxpat) to drive playback. Loop and rocking use [Behaviour_Segment_Ramps.maxpat](./wintersleep-patch/Behaviour_Segment_Ramps.maxpat) and support speed, direction, linking to additive parameters, waiting, and stopping; loop also supports mutations and a linear one-shot mode. Static uses [Behaviour_Static_Ramps.maxpat](./wintersleep-patch/Behaviour_Static_Ramps.maxpat) and supports speed, linking to additive parameters, and stopping. The ramps can drive granular position; [Drive_Frame_Traversal.maxpat](./wintersleep-patch/Drive_Frame_Traversal.maxpat) supports ramp-driven frame playback. | — | — |
 | **Realtime analysis** | **Partial** | [Analysis_Descriptors_RT.maxpat](./wintersleep-patch/Analysis_Descriptors_RT.maxpat) wraps descriptor-frame analysis for realtime audio. Mapping integration is not identified; see Mapping. | — | Decide on secondary realtime analysis; this affects realtime analysis, not frame-based analysis. |
 | **Playback** | **Partial** | [Voice_Partial.maxpat](./wintersleep-patch/Voice_Partial.maxpat) provides additive resynthesis using [DSP_Oscillator.maxpat](./wintersleep-patch/DSP_Oscillator.maxpat) and related DSP components; the patch notes say it avoids aliasing internally. The voice uses dynamic.this~ and dynamic.out~; filtering times and partial delays are in milliseconds. [DSP_Granular.maxpat](./wintersleep-patch/DSP_Granular.maxpat) provides a basic framelib granular patch; wider voice management is not yet in place. | Review panning: additive has none yet; granular is stereo and could be panned at voice level to quad or made inherently quad per voice. Consider whether additive voice parameters need dynamic control and whether removing sig~ objects could save resources; review integration with control modules. | Build voice management and address voice-level concerns. |
 | **Sample choice** | **Partial** | Segment-selection patterns exist in timing and behaviour control. An integrated sample-choice module and content-aware selection are not identified. | — | — |
-| **Timing and behaviour** | **Partial** | Timing and behaviour control is intended to model basic score activities and control playback. [Pattern_Static.maxpat](./wintersleep-patch/Pattern_Static.maxpat), [Pattern_Loop.maxpat](./wintersleep-patch/Pattern_Loop.maxpat), and [Pattern_Rocking.maxpat](./wintersleep-patch/Pattern_Rocking.maxpat) use randomisation to control segment selection and map to behaviour types in the score. [Behaviour_Static.maxpat](./wintersleep-patch/Behaviour_Static.maxpat), [Behaviour_Loop.maxpat](./wintersleep-patch/Behaviour_Loop.maxpat), and [Behaviour_Rocking.maxpat](./wintersleep-patch/Behaviour_Rocking.maxpat) combine patterns with [segment information](./wintersleep-patch/Drive_Segment_Info.maxpat) and [timing ramps](./wintersleep-patch/Drive_Ramps.maxpat) to drive playback. Loop and rocking use [Behaviour_Segment_Ramps.maxpat](./wintersleep-patch/Behaviour_Segment_Ramps.maxpat) and support speed, direction, linking to additive parameters, and stopping; loop also supports a linear one-shot mode. The ramps can drive granular position; [Drive_Frame_Traversal.maxpat](./wintersleep-patch/Drive_Frame_Traversal.maxpat) supports ramp-driven frame playback. | Review algorithm descriptions. | Add mutations and waits to loop; finish static behaviour. |
 | **Mapping** | **Not found** | No implementation is identified in the available patches. The proposed mapping module generates parameters for randomisation, timing, and playback, and may categorise materials. | — | — |
