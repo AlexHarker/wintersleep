@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "System Architecture.md",
+                "file": "wintersleep-patch/docs/Patch Progress + Notes.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "System Architecture"
+              "title": "Patch Progress + Notes"
             }
           }
         ]
@@ -173,21 +173,22 @@
   },
   "active": "61ebb83aa59c27ac",
   "lastOpenFiles": [
-    "Studies.md",
-    "System Architecture.md",
-    "wintersleep-patch/docs/Patch Progress + Notes.md",
-    "wintersleep-patch/Behaviours.maxpat",
-    "wintersleep-patch/Behaviour_Retrigger.maxpat",
-    "wintersleep-patch/Drive_Timed_Partials.maxpat",
-    "Timing Module Modes.md",
-    "wintersleep-patch/Random_Size.maxpat",
-    "wintersleep-patch/Behaviour_Static_Ramps.maxpat",
-    "wintersleep-patch/Behaviour_Segment_Ramps.maxpat",
+    "Test Patches/TestWS.maxpat",
     "Basic Systems Ideas.md",
-    "wintersleep-patch/Behaviour_Static.maxpat",
-    "wintersleep-patch/Behaviour_Loop.maxpat",
-    "wintersleep-patch/Behaviour_Rocking.maxpat",
-    "wintersleep-patch/Drive_Segment_Info.maxpat",
+    "wintersleep-patch/docs/Patch Progress + Notes.md",
+    "wintersleep-patch/Voice_Granular.maxpat",
+    "wintersleep-patch/Module_Playback.maxpat",
+    "wintersleep-patch/DSP_Sum_Quad.maxpat",
+    "wintersleep-patch/DSP_Reverb.maxpat",
+    "wintersleep-patch/DSP_Output.maxpat",
+    "wintersleep-patch/DSP_Core.maxpat",
+    "wintersleep-patch/Random_Pan.maxpat",
+    "wintersleep-patch/DSP_Partial_Pan.maxpat",
+    "Test Patches/TestTiming.maxpat",
+    "Test Patches/Test_NRT_Analysis.maxpat",
+    "System Architecture.md",
+    "Studies.md",
+    "Timing Module Modes.md",
     "Optimisation.md",
     "Harmonies.md",
     "DSP Ideas.md",

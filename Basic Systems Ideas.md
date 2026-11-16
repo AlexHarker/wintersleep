@@ -44,6 +44,9 @@
 - Create random parameters from some flat/fixed set of parameters/data
 - control timing modules or playback modules
 
+**Processing modules**
+- A quad reverb only
+
 **Timing and behaviour control modules**
 - control playback modules
 - likely controlled by randomisation (so randomisation modules)
