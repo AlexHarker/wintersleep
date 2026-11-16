@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "System Architecture.md",
+                "file": "wintersleep-patch/docs/Message Inventory.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "System Architecture"
+              "title": "Message Inventory"
             }
           }
         ]
@@ -173,19 +173,20 @@
   },
   "active": "23cbc15d88cb4dfc",
   "lastOpenFiles": [
+    "Mapping.md",
+    "wintersleep-patch/docs/Message Inventory.md",
+    "System Architecture.md",
+    "wintersleep-patch/Mapping_Partial_Messages.maxpat",
+    "wintersleep-patch/docs/Patch Progress + Notes.md",
     "wintersleep-patch/DSP_BFormat_Encode.maxpat",
     "wintersleep-patch/DSP_BFormat_Decode.maxpat",
     "wintersleep-patch/IR-X-Y.wav",
     "wintersleep-patch/IR-W-W.wav",
-    "wintersleep-patch/docs/Patch Progress + Notes.md",
     "wintersleep-patch/IR-W-X.wav",
     "wintersleep-patch/IR-W-Y.wav",
     "wintersleep-patch/IR-X-W.wav",
     "wintersleep-patch/IR-X-X.wav",
     "wintersleep-patch/IR-Y-W.wav",
-    "wintersleep-patch/IR-Y-X.wav",
-    "wintersleep-patch/IR-Y-Y.wav",
-    "System Architecture.md",
     "Studies.md",
     "Basic Systems Ideas.md",
     "Timing Module Modes.md",
