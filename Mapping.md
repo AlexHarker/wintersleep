@@ -51,3 +51,12 @@ The flows are:
 	RT Analysis / Controller Input -> Slot Continuous Control
 
 Note that the setup will determine mappings for continuous control
+
+Order - Choose:
+	Sample and behaviour (do these need to be linked, do we choose to make a certain kind of sound overall)
+	 Setup behaviour
+	 Setup synth params (can be separated from behaviour params)
+	 Setup continuous mapping
+		 - do realtime and controls interact (and how)?
+		 - how do we set boundaries on any variation/randomness
+		 - which parameters need more care - let's make lists in the other doc!
