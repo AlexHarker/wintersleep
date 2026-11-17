@@ -2,7 +2,6 @@
 - processes pickup and mic inputs separately; does not mix them
 - applies input-specific processing (high-pass filtering on both; spectral compensation on the pickup)
 - passes pickup audio to the capture module; the mic remains available for other potential uses
-- realtime analysis input source is not yet specified
 
 **Compensation System**
 - Realtime Module (applies spectral correction to the input)
@@ -56,6 +55,11 @@
 - maps midi control or other hardware input to generic controller messages (abstracts hardware from mapping module)
 
 **Mapping Module(s)**
+- Needs several elements
+	- Mapping Global (common mapping of the realtime analysis / common processing for slots to call that requires being in one place - if needed)
+	- Mapping Slot Setup (fires when a slot is activated to prime the slot with base parameters and set up any continuous mappings)
+	- Mapping Continuous (runs as the slot is in process to control the parameters)
+	- Sample Choice module
 - takes realtime analysis output and also hardware input
 - might be based on mapping to presets or time-varying presets
 - might involve neural network based mappings
@@ -63,3 +67,7 @@
 - may do categorisation of materials
 - There is a likely split here between the overall global mapping module and per slot mapping/control modules
 - Possibly the local modules call through to global, or receive parameters from it - this is unclear
+
+**Settings module**
+- sets values for fixed things elsewhere as in the message inventory
+

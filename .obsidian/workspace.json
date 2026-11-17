@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "e03505d315a5017b",
+        "id": "1590705ae01894bb",
         "type": "tabs",
         "children": [
           {
-            "id": "5230b9d8c62ada61",
+            "id": "1388fa5a50c6d824",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "System Architecture.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "System Architecture"
             }
           }
         ]
@@ -167,30 +171,30 @@
       "bases:Create new base": false
     }
   },
-  "active": "5230b9d8c62ada61",
+  "active": "1388fa5a50c6d824",
   "lastOpenFiles": [
-    "System Architecture.md",
     "Basic Systems Ideas.md",
     "wintersleep-patch/docs/Patch Progress + Notes.md",
+    "System Architecture.md",
     "wintersleep-patch/docs/Message Inventory.md",
     "Mapping.md",
-    "wintersleep-patch/Mapping_Partial_Messages.maxpat",
-    "wintersleep-patch/DSP_BFormat_Encode.maxpat",
-    "wintersleep-patch/DSP_BFormat_Decode.maxpat",
-    "wintersleep-patch/IR-X-Y.wav",
-    "wintersleep-patch/IR-W-W.wav",
-    "wintersleep-patch/IR-W-X.wav",
-    "wintersleep-patch/IR-W-Y.wav",
-    "wintersleep-patch/IR-X-W.wav",
-    "wintersleep-patch/IR-X-X.wav",
-    "wintersleep-patch/IR-Y-W.wav",
+    "Additive System.md",
+    "wintersleep-patch/Utility_Debounce.maxpat",
+    "wintersleep-patch/Module_Realtime_Analysis.maxpat",
+    "wintersleep-patch/Analysis_Onset.maxpat",
+    "wintersleep-patch/Control_Slot.maxpat",
+    "wintersleep-patch/Control_Macro_Value.maxpat",
+    "wintersleep-patch/Control_Fader_To_Volume.maxpat",
+    "wintersleep-patch/Mapping_Slot_Control.maxpat",
+    "wintersleep-patch/Mapping_Granular_Messages.maxpat",
+    "wintersleep-patch/Fader_To_Volume.maxpat",
+    "Optimisation.md",
+    "wintersleep-patch/Test.maxpat",
     "Studies.md",
     "Timing Module Modes.md",
-    "Optimisation.md",
     "Harmonies.md",
     "DSP Ideas.md",
     "Parameters.md",
-    "Additive System.md",
     "wintersleep-patch/README.md",
     "To Consider.md",
     "Technique Questions.md",
