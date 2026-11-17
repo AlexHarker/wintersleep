@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "ce4d9e81cb262ec5",
+        "id": "e03505d315a5017b",
         "type": "tabs",
         "children": [
           {
-            "id": "23cbc15d88cb4dfc",
+            "id": "5230b9d8c62ada61",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Basic Systems Ideas.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Basic Systems Ideas"
+              "title": "New tab"
             }
           }
         ]
@@ -171,12 +167,13 @@
       "bases:Create new base": false
     }
   },
-  "active": "23cbc15d88cb4dfc",
+  "active": "5230b9d8c62ada61",
   "lastOpenFiles": [
+    "System Architecture.md",
+    "Basic Systems Ideas.md",
     "wintersleep-patch/docs/Patch Progress + Notes.md",
     "wintersleep-patch/docs/Message Inventory.md",
     "Mapping.md",
-    "System Architecture.md",
     "wintersleep-patch/Mapping_Partial_Messages.maxpat",
     "wintersleep-patch/DSP_BFormat_Encode.maxpat",
     "wintersleep-patch/DSP_BFormat_Decode.maxpat",
@@ -188,7 +185,6 @@
     "wintersleep-patch/IR-X-X.wav",
     "wintersleep-patch/IR-Y-W.wav",
     "Studies.md",
-    "Basic Systems Ideas.md",
     "Timing Module Modes.md",
     "Optimisation.md",
     "Harmonies.md",
