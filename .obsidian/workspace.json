@@ -173,6 +173,8 @@
   },
   "active": "1388fa5a50c6d824",
   "lastOpenFiles": [
+    "~$Playback Messages.xlsx",
+    "Playback Messages.xlsx",
     "Mapping.md",
     "wintersleep-patch/docs/Message Inventory.md",
     "Test Patches/Test.maxpat",
@@ -188,7 +190,6 @@
     "wintersleep-patch/Control_Fader_To_Volume.maxpat",
     "wintersleep-patch/Mapping_Slot_Control.maxpat",
     "wintersleep-patch/Mapping_Granular_Messages.maxpat",
-    "wintersleep-patch/Fader_To_Volume.maxpat",
     "Optimisation.md",
     "Studies.md",
     "Timing Module Modes.md",
