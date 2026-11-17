@@ -55,9 +55,11 @@
 **Hardware Input module**
 - maps midi control or other hardware input to generic controller messages (abstracts hardware from mapping module)
 
-**Mapping Module**
+**Mapping Module(s)**
 - takes realtime analysis output and also hardware input
 - might be based on mapping to presets or time-varying presets
 - might involve neural network based mappings
 - generates directly the parameters for the randomisations/timings/playback modules
 - may do categorisation of materials
+- There is a likely split here between the overall global mapping module and per slot mapping/control modules
+- Possibly the local modules call through to global, or receive parameters from it - this is unclear
