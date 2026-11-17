@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "wintersleep-patch/docs/Message Inventory.md",
+                "file": "wintersleep-patch/docs/Static Settings.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Message Inventory"
+              "title": "Static Settings"
             }
           }
         ]
@@ -173,23 +173,24 @@
   },
   "active": "1388fa5a50c6d824",
   "lastOpenFiles": [
+    "System Architecture.md",
+    "wintersleep-patch/docs/Static Settings.md",
+    "wintersleep-patch/docs/default_static_settings.json",
+    "wintersleep-patch/docs/Message Inventory.md",
+    "wintersleep-patch/- wintersleep.maxpat",
+    "wintersleep-patch/docs/Default Settings.md",
+    "wintersleep-patch/docs/default_behaviours.json",
+    "wintersleep-patch/docs/default_granular.json",
+    "wintersleep-patch/docs/default_partials.json",
+    "wintersleep-patch/docs/Default Behaviours.json",
+    "wintersleep-patch/docs/Default Granular.json",
+    "wintersleep-patch/docs/Default Partials.json",
     "~$Playback Messages.xlsx",
     "Playback Messages.xlsx",
     "Mapping.md",
-    "wintersleep-patch/docs/Message Inventory.md",
-    "Test Patches/Test.maxpat",
-    "System Architecture.md",
     "Basic Systems Ideas.md",
     "wintersleep-patch/docs/Patch Progress + Notes.md",
     "Additive System.md",
-    "wintersleep-patch/Utility_Debounce.maxpat",
-    "wintersleep-patch/Module_Realtime_Analysis.maxpat",
-    "wintersleep-patch/Analysis_Onset.maxpat",
-    "wintersleep-patch/Control_Slot.maxpat",
-    "wintersleep-patch/Control_Macro_Value.maxpat",
-    "wintersleep-patch/Control_Fader_To_Volume.maxpat",
-    "wintersleep-patch/Mapping_Slot_Control.maxpat",
-    "wintersleep-patch/Mapping_Granular_Messages.maxpat",
     "Optimisation.md",
     "Studies.md",
     "Timing Module Modes.md",
