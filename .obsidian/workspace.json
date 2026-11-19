@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "wintersleep-patch/docs/Static Settings.md",
+                "file": "Mapping.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Static Settings"
+              "title": "Mapping"
             }
           }
         ]
@@ -173,20 +173,21 @@
   },
   "active": "1388fa5a50c6d824",
   "lastOpenFiles": [
-    "System Architecture.md",
+    "wintersleep-patch/default_behaviours.json",
+    "wintersleep-patch/Control_Continuous.maxpat",
+    "wintersleep-patch/Control_Behaviour.maxpat",
+    "wintersleep-patch/Mapping_Partial_Macros.maxpat",
+    "wintersleep-patch/Mapping_Behaviour_Macros.maxpat",
+    "wintersleep-patch/docs/macro_partials.json",
+    "wintersleep-patch/docs/macro_behaviours.json",
+    "Test Patches/Mapping_Partial_Macros.maxpat",
+    "Test Patches/Mapping_Behaviour_Macros.maxpat",
+    "Test Patches/Control_Continuous.maxpat",
+    "Test Patches/Mapping_Macros.maxpat",
     "wintersleep-patch/docs/Static Settings.md",
-    "wintersleep-patch/docs/default_static_settings.json",
+    "System Architecture.md",
     "wintersleep-patch/docs/Message Inventory.md",
-    "wintersleep-patch/- wintersleep.maxpat",
     "wintersleep-patch/docs/Default Settings.md",
-    "wintersleep-patch/docs/default_behaviours.json",
-    "wintersleep-patch/docs/default_granular.json",
-    "wintersleep-patch/docs/default_partials.json",
-    "wintersleep-patch/docs/Default Behaviours.json",
-    "wintersleep-patch/docs/Default Granular.json",
-    "wintersleep-patch/docs/Default Partials.json",
-    "~$Playback Messages.xlsx",
-    "Playback Messages.xlsx",
     "Mapping.md",
     "Basic Systems Ideas.md",
     "wintersleep-patch/docs/Patch Progress + Notes.md",

@@ -25,7 +25,7 @@ Parameter Groupings:
 	- Transport (behaviour things / interval and length for granular)
 
 There should be a notion of "active" parameters with some exclusivity (e.g. shape vs FM)
-	- Parameters could then ma
+	- Parameters could then be macroised
 
 Controller
 - There is space for 3 macros - one might be speed - others could be variability timbre / messiness / mutate or wait or the groups above
