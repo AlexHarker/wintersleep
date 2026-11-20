@@ -1,0 +1,99 @@
+{
+    "patcher": {
+        "fileversion": 1,
+        "appversion": {
+            "major": 9,
+            "minor": 2,
+            "revision": 0,
+            "architecture": "x64",
+            "modernui": 1
+        },
+        "classnamespace": "dsp.gen",
+        "rect": [ 433.0, 460.0, 653.0, 415.0 ],
+        "boxes": [
+            {
+                "box": {
+                    "id": "obj-7",
+                    "maxclass": "newobj",
+                    "numinlets": 0,
+                    "numoutlets": 1,
+                    "outlettype": [ "" ],
+                    "patching_rect": [ 507.0, 31.0, 129.0, 22.0 ],
+                    "text": "in 3 (signal/float) Index"
+                }
+            },
+            {
+                "box": {
+                    "code": "carrier_freq = in1;\r\nharmonicity = in2;\r\nindex = in3;\r\n\r\nmodulation = 0;\r\n\r\nif (index)\r\n{\r\n    mod_freq = carrier_freq * harmonicity;\r\n    modulator, mod_idx = cycle(mod_freq);\n    modulation = modulator * index * mod_freq;\n}\r\n    \r\ncarrier, carrier_idx = cycle(carrier_freq + modulation);\n\r\nout1 = carrier;",
+                    "fontface": 0,
+                    "fontname": "<Monospaced>",
+                    "fontsize": 12.0,
+                    "id": "obj-5",
+                    "maxclass": "codebox",
+                    "numinlets": 3,
+                    "numoutlets": 1,
+                    "outlettype": [ "" ],
+                    "patching_rect": [ 46.0, 65.0, 480.0, 283.0 ]
+                }
+            },
+            {
+                "box": {
+                    "id": "obj-1",
+                    "maxclass": "newobj",
+                    "numinlets": 0,
+                    "numoutlets": 1,
+                    "outlettype": [ "" ],
+                    "patching_rect": [ 46.0, 31.0, 157.0, 22.0 ],
+                    "text": "in 1 (signal/float) Frequency"
+                }
+            },
+            {
+                "box": {
+                    "id": "obj-2",
+                    "maxclass": "newobj",
+                    "numinlets": 0,
+                    "numoutlets": 1,
+                    "outlettype": [ "" ],
+                    "patching_rect": [ 277.0, 31.0, 163.0, 22.0 ],
+                    "text": "in 2 (signal/float) Harmonicity"
+                }
+            },
+            {
+                "box": {
+                    "id": "obj-4",
+                    "maxclass": "newobj",
+                    "numinlets": 1,
+                    "numoutlets": 0,
+                    "patching_rect": [ 46.0, 364.0, 117.0, 22.0 ],
+                    "text": "out 1 (signal) Output"
+                }
+            }
+        ],
+        "lines": [
+            {
+                "patchline": {
+                    "destination": [ "obj-5", 0 ],
+                    "source": [ "obj-1", 0 ]
+                }
+            },
+            {
+                "patchline": {
+                    "destination": [ "obj-5", 1 ],
+                    "source": [ "obj-2", 0 ]
+                }
+            },
+            {
+                "patchline": {
+                    "destination": [ "obj-4", 0 ],
+                    "source": [ "obj-5", 0 ]
+                }
+            },
+            {
+                "patchline": {
+                    "destination": [ "obj-5", 2 ],
+                    "source": [ "obj-7", 0 ]
+                }
+            }
+        ]
+    }
+}

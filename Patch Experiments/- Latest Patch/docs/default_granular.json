@@ -1,0 +1,23 @@
+{
+  "transport": {
+    "length": [200, 600],
+    "offset": [200, 4000],
+    "interval": [5, 20]
+  },
+  "filter": {
+    "switch": 0,
+    "freq": [1000, 12000],
+    "reson": 0.54,
+    "mode": "lowpass"
+  },
+  "panner": {
+    "pan": 0.5,
+    "depth": 0,
+    "panrange": 0.15,
+    "depthrange": 0
+  },
+  "playback": {
+    "transpose": [1, 1],
+    "volume": [-10, 0]
+  }
+}

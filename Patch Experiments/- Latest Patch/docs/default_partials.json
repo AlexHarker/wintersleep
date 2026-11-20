@@ -1,0 +1,52 @@
+{
+  "filter": {
+    "minamp": -1000,
+    "minlength": 0,
+    "random": 0
+  },
+  "transport": {
+    "speed": 1,
+    "randspeed": 0,
+    "randdelay": 0,
+    "mode": 0,
+    "revsplit": 0
+  },
+  "freq": {
+    "transpose": 1,
+    "randtranspose": 0,
+    "shift": 0,
+    "randshift": 0,
+    "vibrato": 1,
+    "randvibrato": 0
+  },
+  "amp": {
+    "volume": 0,
+    "randvolume": 0,
+    "compress": 0
+  },
+  "fm": {
+    "harmonicity": 1,
+    "randharmonicity": 0,
+    "index": 0,
+    "randindex": 0
+  },
+  "shape": {
+    "mode": 0,
+    "shape": 0,
+    "randshape": 0
+  },
+  "noise": {
+    "level": 0,
+    "randlevel": 0
+  },
+  "panner": {
+    "pan": 0.5,
+    "panrange": 0.15,
+    "depth": 0,
+    "depthrange": 0
+  },
+  "body": {
+    "in": "AltoIR",
+    "out": "AltoIR"
+  }
+}

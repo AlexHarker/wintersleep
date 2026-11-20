@@ -1,0 +1,9 @@
+{
+  "transport_length": [200, 200, 600, 600],
+  "transport_span": [10.0, 10.0],
+  "transport_interval": [5, 5, 20, 20],
+  "filter_freq": [1000, 1000, 12000, 12000],
+  "filter_reson": [0.5, 0.5],
+  "playback_transpose": [1.0, 1.0, 1.0, 1.0],
+  "playback_volume": [-10.0, -10.0, 0.0, 0.0]
+}

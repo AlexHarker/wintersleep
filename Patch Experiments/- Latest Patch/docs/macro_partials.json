@@ -1,0 +1,19 @@
+{
+  "filter_minamp": [-1000.0, -1000.0],
+  "filter_random": [0.0, 0.0],
+  "transport_speed": [0.0, 0.0],
+  "transport_randspeed": [0.0, 0.0],
+  "transport_revsplit": [0.0, 0.0],
+  "freq_randtranspose": [0.0, 0.0],
+  "freq_vibrato": [1.0, 1.0],
+  "freq_randvibrato": [0.0, 0.0],
+  "amp_randvolume": [0.0, 0.0],
+  "amp_compress": [0.0, 0.0],
+  "fm_randharmonicity": [0.0, 0.0],
+  "fm_index": [0.0, 0.0],
+  "fm_randindex": [0.0, 0.0],
+  "shape_shape": [0.0, 0.0],
+  "shape_randshape": [0.0, 0.0],
+  "noise_level": [0.0, 0.0],
+  "noise_randlevel": [0.0, 0.0]
+}

@@ -1,0 +1,82 @@
+{
+    "patcher": {
+        "fileversion": 1,
+        "appversion": {
+            "major": 9,
+            "minor": 1,
+            "revision": 5,
+            "architecture": "x64",
+            "modernui": 1
+        },
+        "classnamespace": "dsp.gen",
+        "rect": [ 153.0, 139.0, 746.0, 598.0 ],
+        "boxes": [
+            {
+                "box": {
+                    "id": "obj-6",
+                    "maxclass": "newobj",
+                    "numinlets": 0,
+                    "numoutlets": 1,
+                    "outlettype": [ "" ],
+                    "patching_rect": [ 558.0, 27.0, 163.0, 22.0 ],
+                    "text": "in 2 (signal/float) Shape (0-1)"
+                }
+            },
+            {
+                "box": {
+                    "code": "dc_blocker(x0, reset)\r\n{\r\n    History x1(0);\r\n    History y1(0);\r\n\r\n    if (reset)\r\n    {\r\n        x1 = 0;\r\n        y1 = 0;\r\n    }\r\n    \r\n    y = x0 - x1 + (0.99 * y1);\n    \n    // Shift memories\n        \r\n    x1 = x0;\n    y1 = y;\r\n    \r\n    return y;\r\n}\r\n\r\nmul_func(idx)\r\n{\r\n    return scale(idx, 2, 8, 0.995, 0.95);\r\n}\r\n\r\ncheby_taper(sum, x, m1, m2, add, d, idx)\r\n{\r\n    shape = (2 * x * m1) - m2;\r\n    d = d * d * mul_func(idx);\r\n    \r\n    if (add)\r\n        sum += d * shape;\r\n    \r\n    return sum, shape, m1, d;\r\n}\r\n\r\ncheby_custom(sum, x, m1, m2, d)\r\n{\r\n    shape = (2 * x * m1) - m2;\r\n    sum += d * shape;\r\n    \r\n    return sum, shape, m1;\r\n}\r\n\r\n// 0 - both, 1 - even, 2 - odd, 3 - custom\r\nParam mode(0, min=0, max=3);\r\n\r\nParam h2(0);\r\nParam h3(0);\r\nParam h4(0);\r\nParam h5(0);\r\nParam h6(0);\r\nParam h7(0);\r\nParam h8(0);\r\n\r\nHistory clear(0);\r\n\r\nx = in1 + 0;\r\nd = sqrt(clip(in2, 0, 1));\r\n\r\nsum = x;\r\nm1 = x;\r\nm2 = 1;\r\n\r\nodd = mode != 1;\r\neven = mode != 2;\r\n\r\nif (d)\r\n{\r\n    if (mode == 3)\r\n    {\r\n        // Harmonic 2\r\n        sum, m1, m2 = cheby_custom(sum, x, m1, m2, d * h2);\r\n    \r\n        // Harmonic 3\r\n        sum, m1, m2 = cheby_custom(sum, x, m1, m2, d * h3);\r\n    \r\n        // Harmonic 4\r\n        sum, m1, m2 = cheby_custom(sum, x, m1, m2, d * h4);\r\n        \r\n        // Harmonic 5\r\n        sum, m1, m2 = cheby_custom(sum, x, m1, m2, d * h5);\r\n        \r\n        // Harmonic 6\r\n        sum, m1, m2 = cheby_custom(sum, x, m1, m2, d * h6);\r\n    \r\n        // Harmonic 7\r\n        sum, m1, m2 = cheby_custom(sum, x, m1, m2, d * h7);\r\n        \r\n        // Harmonic 8\r\n        sum, m1, m2 = cheby_custom(sum, x, m1, m2, d * h8);\r\n    \r\n        // DC Block\r\n        sum = dc_blocker(sum, clear);\r\n    }\r\n    else\r\n    {\r\n        // Harmonic 2\r\n        sum, m1, m2, d = cheby_taper(sum, x, m1, m2, even, d, 2);\r\n    \r\n        // Harmonic 3\r\n        sum, m1, m2, d = cheby_taper(sum, x, m1, m2, odd, d, 3);\r\n    \r\n        // Harmonic 4\r\n        sum, m1, m2, d = cheby_taper(sum, x, m1, m2, even, d, 4);\r\n        \r\n        // Harmonic 5\r\n        sum, m1, m2, d = cheby_taper(sum, x, m1, m2, odd, d, 5);\r\n        \r\n        // Harmonic 6\r\n        sum, m1, m2, d = cheby_taper(sum, x, m1, m2, even, d, 6);\r\n    \r\n        // Harmonic 7\r\n        sum, m1, m2, d = cheby_taper(sum, x, m1, m2, odd, d, 7);\r\n        \r\n        // Harmonic 8\r\n        sum, m1, m2, d = cheby_taper(sum, x, m1, m2, even, d, 8);\r\n    \r\n        // DC Block\r\n        sum = dc_blocker(sum, clear);\r\n    }\r\n}\r\n\r\nclear = d == 0;\r\n\r\nout1 = sum;",
+                    "fontface": 0,
+                    "fontname": "<Monospaced>",
+                    "fontsize": 12.0,
+                    "id": "obj-5",
+                    "maxclass": "codebox",
+                    "numinlets": 2,
+                    "numoutlets": 1,
+                    "outlettype": [ "" ],
+                    "patching_rect": [ 42.0, 64.0, 535.0, 466.0 ]
+                }
+            },
+            {
+                "box": {
+                    "id": "obj-1",
+                    "maxclass": "newobj",
+                    "numinlets": 0,
+                    "numoutlets": 1,
+                    "outlettype": [ "" ],
+                    "patching_rect": [ 42.0, 27.0, 101.0, 22.0 ],
+                    "text": "in 1 (signal) Input"
+                }
+            },
+            {
+                "box": {
+                    "id": "obj-4",
+                    "maxclass": "newobj",
+                    "numinlets": 1,
+                    "numoutlets": 0,
+                    "patching_rect": [ 42.0, 549.0, 117.0, 22.0 ],
+                    "text": "out 1 (signal) Output"
+                }
+            }
+        ],
+        "lines": [
+            {
+                "patchline": {
+                    "destination": [ "obj-5", 0 ],
+                    "source": [ "obj-1", 0 ]
+                }
+            },
+            {
+                "patchline": {
+                    "destination": [ "obj-4", 0 ],
+                    "source": [ "obj-5", 0 ]
+                }
+            },
+            {
+                "patchline": {
+                    "destination": [ "obj-5", 1 ],
+                    "source": [ "obj-6", 0 ]
+                }
+            }
+        ]
+    }
+}
