@@ -47,7 +47,7 @@ Things that should be taken care of:
 The model is that each slot has a mapping/control unit 
 
 The flows are:
-	NRT Analysis / RT Analysis / Controller Input -> Slot Setup (including sample choice) -> Playback Engine
+	NRT Analysis / RT Analysis / Global Mapping / Controller Input -> Slot Setup (including sample choice) -> Playback Engine
 	RT Analysis / Controller Input -> Slot Continuous Control
 
 Note that the setup will determine mappings for continuous control
