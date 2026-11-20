@@ -171,8 +171,10 @@
       "bases:Create new base": false
     }
   },
-  "active": "1388fa5a50c6d824",
+  "active": "939908dbfdae0460",
   "lastOpenFiles": [
+    "wintersleep-patch/docs/Playback Messages.xlsx",
+    "wintersleep-patch/Playback Messages.xlsx",
     "Test Patches/TestRandom.maxpat",
     "Test Patches/Random Modules/TestRandom.maxpat",
     "Test Patches/TestController.maxpat",
@@ -182,8 +184,6 @@
     "Programme Note/wintersleep prog note.pages",
     "Programme Note",
     "Programme Notes/wintersleep prog note.pages",
-    "Programme Notes",
-    "untitled folder",
     "System Architecture.md",
     "Mapping.md",
     "wintersleep-patch/docs/Static Settings.md",
