@@ -174,6 +174,7 @@
   "active": "1388fa5a50c6d824",
   "lastOpenFiles": [
     "wintersleep-patch/docs/Patch Progress + Notes.md",
+    "System Architecture.md",
     "wintersleep-patch/Mapping_Capture_Control.maxpat",
     "wintersleep-patch/Mapping_RT_Analysis.maxpat",
     "wintersleep-patch/Mapping_RT_Analysis_JIC.maxpat",
@@ -184,7 +185,6 @@
     "wintersleep-patch/Mapping_RT_Stats 2.maxpat",
     "wintersleep-patch/Mapping_RT_Stats_Core.maxpat",
     "wintersleep-patch/Analysis_Threshold_Confidence.maxpat",
-    "System Architecture.md",
     "Tasks.md",
     "Studies.md",
     "wintersleep-patch/docs/Message Inventory.md",
