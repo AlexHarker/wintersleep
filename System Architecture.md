@@ -2,7 +2,8 @@
 
 ## **Main Architecture Diagram**
 
-Dashed links represent proposed or not-yet-identified integrations.
+Solid links show implemented paths; dashed links show proposed or incomplete integrations. Shared dictionaries and buffers connect modules without direct patch cords.
+Chunk selection is currently supplied externally for testing; selecting it before slot feature initialization remains to be implemented.
 
 ```mermaid
 flowchart TB
@@ -22,22 +23,25 @@ flowchart TB
         Similarity[Spectral Similarity to Past Windows]
         Shape[Spectral Shape Analysis]
         Loudness[Loudness Measurement]
-        Pitch[Pitch & Harmony Analysis]
+        Pitch[Pitch and Confidence]
     end
-    
-    AnalysisInput[Realtime-analysis input source TBD]
-    
+
     subgraph Capture["Capture Module"]
         CircularBuffer[Circular Buffer]
         TriggerCapture[Trigger-Based Capture]
-        subgraph Offline_Analysis["Offline Analysis Module"]
-            DeriveDescriptors[Audio Descriptor Extraction]
-            PartialTracks[Spectral Partial Tracking]
-        end
         CircularBuffer --> TriggerCapture
-        TriggerCapture -->|captured chunks| Offline_Analysis
     end
-    
+
+    subgraph Offline_Analysis["Offline Analysis Module"]
+        DeriveDescriptors[Audio Descriptor Extraction]
+        PartialTracks[Spectral Partial Tracking]
+    end
+
+    CapturedBuffers[Captured Audio Buffers]
+    ChunkData[ws_data<br/>Chunk and Analysis Data]
+    Features[ws_features<br/>Shared Feature Values]
+    TestChunk[External Test Chunk Selection]
+
     subgraph Offline_Processing["Additional Offline Processing (proposed)"]
         AlternativeReps[Alternative Representations]
         Categorise[Sample Categorisation]
@@ -50,7 +54,10 @@ flowchart TB
     
     subgraph Playback["Playback Modules"]
         AdditiveSynth[Additive Resynthesis]
-        DirectPlayback[Direct Audio Playback]
+        GranularPlayback[Granular Playback]
+        Output[Quad Output and Reverb]
+        AdditiveSynth --> Output
+        GranularPlayback --> Output
     end
     
     subgraph Control["Meta-Control Modules"]
@@ -68,42 +75,50 @@ flowchart TB
     
     subgraph Input_Hardware["Hardware Input Module"]
         MIDIMapper[MIDI Control Mapping]
-        OtherMapper[Other Hardware->Generic Messages]
+        OtherMapper[Other Hardware Mapping - proposed]
     end
     
-    subgraph Mapping["Mapping Module"]
-        PresetMap[Preset-Based Mapping]
-        TimeVar[Time-Varying Presets]
-        NeuralMap[Neural Network Mappings]
-        ParameterGen[Parameter Generation]
-        TriggerGen[Trigger/Event Generation]
-        MaterialCategorisation[Material Categorisation - possible]
+    subgraph Global_Mapping["Global Mapping"]
+        RealtimeStats[Realtime Statistics and Derived Descriptors]
+        Composite[Composite Descriptors]
+        FeatureMapping[Feature Mappings]
+        RealtimeStats --> Composite --> FeatureMapping
     end
-    
+
+    subgraph Slot_Mapping["Per-Slot Mapping"]
+        SlotSetup[Slot Setup]
+        MacroMapping[Continuous Macro Mappings]
+    end
+
     PickupProcessing -->|pickup audio only| CircularBuffer
-    AnalysisInput -.-> Realtime_Analysis
-
-    Realtime_Analysis -.->|descriptors| Mapping
-    Mapping -.->|capture trigger| TriggerCapture
+    PickupProcessing --> Realtime_Analysis
+    Realtime_Analysis -->|descriptors and onsets| RealtimeStats
+    FeatureMapping --> Features
+    Features --> SlotSetup
+    RealtimeStats -.->|capture control incomplete| TriggerCapture
+    TriggerCapture -->|captured chunks| Offline_Analysis
+    TriggerCapture --> CapturedBuffers
+    Offline_Analysis --> ChunkData
     Offline_Analysis -.->|analysis results| Offline_Processing
-    Offline_Analysis -.->|metadata| Sample_Choice
+    ChunkData -.->|metadata| Sample_Choice
     Offline_Processing -.->|additional metadata| Sample_Choice
-    Mapping -.-> Sample_Choice
+    Features -.-> Sample_Choice
+    Sample_Choice -.->|chunk selection| SlotSetup
+    TestChunk -->|current chunk selection| SlotSetup
+    ChunkData -->|selected chunk data| SlotSetup
+    CapturedBuffers -->|buffer audio| GranularPlayback
+    SlotSetup --> MacroMapping
+    SlotSetup --> Timing
+    MacroMapping -->|parameters| Playback
+    MIDIMapper -->|controls; slot 1 in main patch| SlotSetup
+    MIDIMapper -->|macro values; slot 1| MacroMapping
 
-    TriggerCapture -.->|captured audio| Playback
-    Offline_Analysis -.->|metadata| Playback
-    Sample_Choice -.->|selection| Playback
-    Mapping -.-> Control
-    Mapping -.->|parameters| Playback
-    Input_Hardware -.->|abstracted control| Mapping
-
-    Randomisation -.-> Timing
-    Timing -.-> Playback
+    Randomisation --> Timing
+    Timing --> Playback
     Randomisation --> BehaviourPatterns
-    BehaviourPatterns -.->|segment selection proposed| Sample_Choice
-    DriveRamps -.->|ramp input| FrameTraversal
-    DriveRamps -.->|granular position| Playback
-    FrameTraversal -.->|frame-based playback| Playback
+    DriveRamps -->|ramp input| FrameTraversal
+    DriveRamps -->|granular position| GranularPlayback
+    FrameTraversal -->|frame-based playback| AdditiveSynth
     
     style Audio_Input fill:#e3f2fd
     style Realtime_Analysis fill:#fff9c4
@@ -114,18 +129,18 @@ flowchart TB
     style Playback fill:#e1f5fe
     style Control fill:#f3e5f5
     style Input_Hardware fill:#ffccbc
-    style Mapping fill:#c8e6c9
+    style Global_Mapping fill:#c8e6c9
+    style Slot_Mapping fill:#c8e6c9
 ```
 
 ## **Dataflow Representation**
 
-This is a conceptual dataflow; connections to mapping, sample choice, and playback are not yet identified as integrated.
+This is a simplified dataflow. Dashed links denote incomplete or proposed paths; chunk selection is currently supplied externally for testing.
 
 ```mermaid
 graph LR
     subgraph Input_Layer["Input Layer"]
         A[Pickup Audio]
-        R[Realtime-analysis input source TBD]
         B[MIDI/Hardware]
     end
     
@@ -133,7 +148,11 @@ graph LR
         CaptureData[Capture]
         Offline[Offline Analysis]
         C[Realtime Analysis]
-        D[Mapping & Transformation]
+        D[Global Mapping]
+        Slot[Per-Slot Setup and Macro Mapping]
+        Data[ws_data]
+        Buffers[Captured Buffers]
+        Features[ws_features]
     end
     
     subgraph Decision_Layer["Decision Layer"]
@@ -148,17 +167,21 @@ graph LR
     
     A --> CaptureData
     CaptureData --> Offline
-    R --> C
-    B --> D
-    C -->|features| D
-    D -->|capture trigger| CaptureData
-    D -->|mapping decisions| E
-    D -->|parameters| F
-    D -->|parameters| PlaybackData
-    CaptureData -->|captured audio| PlaybackData
-    Offline -->|metadata| E
-    Offline -->|metadata| PlaybackData
-    E -->|selection| PlaybackData
+    A --> C
+    B -->|slot 1 in main patch| Slot
+    C -->|descriptors and onsets| D
+    D --> Features
+    Features --> Slot
+    D -.->|capture control incomplete| CaptureData
+    CaptureData --> Buffers
+    Offline --> Data
+    Data --> Slot
+    Data -.->|metadata| E
+    Features -.->|mapping decisions| E
+    E -.->|chunk selection| Slot
+    Slot -->|parameters| F
+    Slot -->|parameters| PlaybackData
+    Buffers -->|audio for granular playback| PlaybackData
     F -->|timing and control| PlaybackData
     PlaybackData --> G
 ```
@@ -192,32 +215,35 @@ flowchart LR
 
 ```mermaid
 sequenceDiagram
-    participant AudioInput as Input Source (TBD)
+    participant AudioInput as Processed Pickup
     participant Analysis as Realtime Analysis
     participant Capture as Capture Module
-    participant Mapping as Mapping Module
-    participant Offline as Offline Analysis (within Capture)
-    participant Choice as Sample Choice
-    participant Playback as Playback
+    participant Mapping as Global Mapping
+    participant Offline as Offline Analysis
+    participant Data as ws_data and Buffers
+    participant Slot as Slot Setup and Behaviour
+    participant Playback as Playback and Quad Output
     
-    AudioInput->>Analysis: audio stream (source TBD)
-    Analysis->>Mapping: {onsets, similarity, pitch}
-    
-    Mapping->>Choice: mapping decisions
-    Mapping->>Capture: capture trigger
+    AudioInput->>Analysis: processed pickup audio
+    AudioInput->>Capture: processed pickup audio
+    Analysis->>Mapping: descriptors and onsets
+    Note over Mapping: Updates shared feature values<br/>on the 250 ms cycle
+    Note over Mapping,Capture: Capture-control generation is incomplete
+    Mapping-->>Capture: proposed capture trigger
     Capture->>Offline: captured chunks
-    
-    Note over Offline: derives descriptors<br/>and partial tracks
-    
-    Offline->>Choice: audio/metadata
-    Choice->>Playback: selection decision
-    
-    Playback->>AudioInput: output audio
+    Capture->>Data: captured buffers
+    Offline->>Data: chunk data, descriptors and partial tracks
+    Note over Slot: Chunk selection is currently<br/>supplied externally for testing
+    Data->>Slot: selected chunk data
+    Mapping->>Slot: shared feature values
+    Slot->>Playback: behaviour and parameter messages
+    Data->>Playback: buffer audio and partial data
+    Note over Playback: additive and granular playback<br/>with quad output
 ```
 
 ## **Current Implementation Status**
 
-The statuses below are additions to the proposed architecture above, not changes to it. They are based on inspection of the current Max patches, [patch progress notes](./wintersleep-patch/docs/Patch%20Progress%20%2B%20Notes.md), and linked design documents; they reflect patch inspection, not runtime testing. **Not found** means no implementation was identified in those sources. Areas with outstanding review items are marked **Review**, a status below **Implemented** and above **Partial**; a review item does not necessarily mean functionality is absent. Outstanding implementation work is listed separately as TODO, while stretch enhancements are in the final column.
+The statuses below are based on inspection of the current Max patches, [patch progress notes](./wintersleep-patch/docs/Patch%20Progress%20%2B%20Notes.md), and linked design documents; they reflect patch inspection, not runtime testing. **Not found** means no implementation was identified in those sources. Areas with outstanding review items are marked **Review**, a status below **Implemented** and above **Partial**; a review item does not necessarily mean functionality is absent. Outstanding implementation work is listed separately as TODO, while stretch enhancements are in the final column.
 
 | Area                                              | Status          | Evidence                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Review                                                                                   | TODO                                                                                                                                                    | Stretch Features                                                           |
 | ------------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
@@ -225,7 +251,7 @@ The statuses below are additions to the proposed architecture above, not changes
 | **Compensation**                                  | **Implemented** | Offline rolloff and body-IR processing are implemented in [Compensate_Rolloff.maxpat](./wintersleep-patch/Compensate_Rolloff.maxpat), [Compensate_BodyIR.maxpat](./wintersleep-patch/Compensate_BodyIR.maxpat), and [Compensate_Transpose.maxpat](./wintersleep-patch/Compensate_Transpose.maxpat). Rolloff compensation is clamped so it cannot exceed 0 dB; body-IR processing provides a smoothing control, and transposition frequency is clipped to 40–22,000 Hz in the call patch. Realtime compensation is implemented in [Compensate_Realtime.maxpat](./wintersleep-patch/Compensate_Realtime.maxpat), with [-- Pickup_Correction.maxpat](./wintersleep-patch/--%20Pickup_Correction.maxpat) as its preparation patch and including a regularisation control.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | —                                                                                        | —                                                                                                                                                       | —                                                                          |
 | **Descriptor-&#8288;frame&nbsp;analysis**         | **Implemented** | [Analysis_Descriptor_Frame.maxpat](./wintersleep-patch/Analysis_Descriptor_Frame.maxpat) provides descriptor analysis; [Analysis_NRT_ToFrames.maxpat](./wintersleep-patch/Analysis_NRT_ToFrames.maxpat) extracts frames from buffered audio. [Analysis_NRT_Stats.maxpat](./wintersleep-patch/Analysis_NRT_Stats.maxpat) computes per-descriptor statistics; [Utility_Gate_Other.maxpat](./wintersleep-patch/Utility_Gate_Other.maxpat) provides descriptor gating. NRT secondary-analysis decisions are made.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | —                                                                                        | —                                                                                                                                                       | —                                                                          |
 | **Mapping&nbsp;-&#8288;&nbsp;Continuous**         | **Implemented** | [Mapping_Macros_Partials.maxpat](./wintersleep-patch/Mapping_Macros_Partials.maxpat), [Mapping_Macros_Granular.maxpat](./wintersleep-patch/Mapping_Macros_Granular.maxpat), and [Mapping_Macros_Behaviour.maxpat](./wintersleep-patch/Mapping_Macros_Behaviour.maxpat) implement continuous controller-macro control of parameters. Per-slot activation-time initialization of these mappings is tracked separately under Mapping - Slot Setup.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | —                                                                                        | —                                                                                                                                                       | —                                                                          |
-| **Mapping&nbsp;-&#8288;&nbsp;Global**             | **Implemented** | [Module_Mapping.maxpat](./wintersleep-patch/Module_Mapping.maxpat) receives realtime analysis and runs [Mapping_RT_Analysis.maxpat](./wintersleep-patch/Mapping_RT_Analysis.maxpat), [Mapping_Composite_Descriptors.maxpat](./wintersleep-patch/Mapping_Composite_Descriptors.maxpat), and [Mapping_Features.maxpat](./wintersleep-patch/Mapping_Features.maxpat) on a 250 ms update cycle. Realtime statistics include onset intervals and MFCCs; [ws_descriptor_names.json](./wintersleep-patch/validation/ws_descriptor_names.json) lists the available names for validation. The composite dictionary is empty and feature mappings currently use `fixed` defaults. Capture control is tracked under Capture.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | —                                                                                        | —                                                                                                                                                       | —                                                                          |
+| **Mapping&nbsp;-&#8288;&nbsp;Global**             | **Implemented** | [Module_Mapping.maxpat](./wintersleep-patch/Module_Mapping.maxpat) receives realtime analysis and runs [Mapping_RT_Analysis.maxpat](./wintersleep-patch/Mapping_RT_Analysis.maxpat), [Mapping_Composite_Descriptors.maxpat](./wintersleep-patch/Mapping_Composite_Descriptors.maxpat), and [Mapping_Features.maxpat](./wintersleep-patch/Mapping_Features.maxpat) on a 250 ms update cycle. Realtime statistics include onset intervals and MFCCs, and derived pitch tracking provides `num_pitches`; [ws_descriptor_names.json](./wintersleep-patch/validation/ws_descriptor_names.json) lists the available names for validation. The composite dictionary is empty and feature mappings currently use `fixed` defaults. Capture control is tracked under Capture.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | —                                                                                        | —                                                                                                                                                       | —                                                                          |
 | **Offline&nbsp;sample&nbsp;processing**           | **Implemented** | [Module_Offline_Analysis.maxpat](./wintersleep-patch/Module_Offline_Analysis.maxpat) manages threading, segment-number validation and storage, using [Data_Segments.maxpat](./wintersleep-patch/Data_Segments.maxpat) to access segment data, and invokes [Analysis_NRT_Analysis.maxpat](./wintersleep-patch/Analysis_NRT_Analysis.maxpat), which runs descriptor and partial-tracking analysis. [Analysis_NRT_Descriptor_Analysis.maxpat](./wintersleep-patch/Analysis_NRT_Descriptor_Analysis.maxpat) uses [Analysis_NRT_ToFrames.maxpat](./wintersleep-patch/Analysis_NRT_ToFrames.maxpat), [Analysis_Descriptor_Frame.maxpat](./wintersleep-patch/Analysis_Descriptor_Frame.maxpat), per-descriptor [Analysis_NRT_Stats.maxpat](./wintersleep-patch/Analysis_NRT_Stats.maxpat), and [Utility_Gate_Other.maxpat](./wintersleep-patch/Utility_Gate_Other.maxpat) for gating. A broader alternative-representation or categorisation pipeline is not identified.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | —                                                                                        | —                                                                                                                                                       | —                                                                          |
 | **Playback**                                      | **Implemented** | [Module_Playback.maxpat](./wintersleep-patch/Module_Playback.maxpat) hosts [Voice_Partial.maxpat](./wintersleep-patch/Voice_Partial.maxpat) and [Voice_Granular.maxpat](./wintersleep-patch/Voice_Granular.maxpat) for additive partial and granular playback. Partial resynthesis uses [DSP_Oscillator.maxpat](./wintersleep-patch/DSP_Oscillator.maxpat); the granular path uses [DSP_Granular.maxpat](./wintersleep-patch/DSP_Granular.maxpat). Both paths pan directly into quad, and voice hosting/management is present.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | —                                                                                        | —                                                                                                                                                       | Consider making selected additive-voice elements dynamically controllable. |
 | **Randomisation**                                 | **Implemented** | Randomisation utility patches are present.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | —                                                                                        | —                                                                                                                                                       | —                                                                          |
@@ -233,8 +259,8 @@ The statuses below are additions to the proposed architecture above, not changes
 | **Settings**                                      | **Implemented** | [Module_Settings.maxpat](./wintersleep-patch/Module_Settings.maxpat) loads [ws_static_settings.json](./wintersleep-patch/mapping/ws_static_settings.json) and emits messages for the input, capture, compensation, realtime analysis and offline analysis modules in the main patch. [-- User Settings.maxpat](./wintersleep-patch/--%20User%20Settings.maxpat) provides tabbed editors for static settings and mapping dictionaries, with write controls and a static-settings update control. [- Validate.maxpat](./wintersleep-patch/validation/-%20Validate.maxpat) checks loaded dictionaries or loads files into temporary dictionaries for validation; [Static Settings](./wintersleep-patch/docs/Static%20Settings.md) documents the settings.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | —                                                                                        | —                                                                                                                                                       | —                                                                          |
 | **Spectral&nbsp;partial&nbsp;tracking**           | **Implemented** | [Analysis_Peaks.maxpat](./wintersleep-patch/Analysis_Peaks.maxpat) derives spectral peaks; [Analysis_Track_Segment.maxpat](./wintersleep-patch/Analysis_Track_Segment.maxpat) turns peaks into tracks for a segment using frame-driving code.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | —                                                                                        | —                                                                                                                                                       | —                                                                          |
 | **Timing&nbsp;and&nbsp;behaviour**                | **Implemented** | Timing and behaviour control is intended to model basic score activities and control playback. [Pattern_Static.maxpat](./wintersleep-patch/Pattern_Static.maxpat), [Pattern_Loop.maxpat](./wintersleep-patch/Pattern_Loop.maxpat), and [Pattern_Rocking.maxpat](./wintersleep-patch/Pattern_Rocking.maxpat) use randomisation to control segment selection and map to behaviour types in the score. [Behaviour_Static.maxpat](./wintersleep-patch/Behaviour_Static.maxpat), [Behaviour_Loop.maxpat](./wintersleep-patch/Behaviour_Loop.maxpat), and [Behaviour_Rocking.maxpat](./wintersleep-patch/Behaviour_Rocking.maxpat) combine patterns with [segment information](./wintersleep-patch/Drive_Segment_Info.maxpat) and [timing ramps](./wintersleep-patch/Drive_Ramps.maxpat) to drive playback. Loop and rocking use [Behaviour_Segment_Ramps.maxpat](./wintersleep-patch/Behaviour_Segment_Ramps.maxpat) and support speed, direction, linking to additive parameters, waiting for random segments, and stopping; loop also supports mutations and a linear one-shot mode. Static uses [Behaviour_Static_Ramps.maxpat](./wintersleep-patch/Behaviour_Static_Ramps.maxpat) and supports speed, linking to additive parameters, and stopping. The ramps can drive granular position; [Drive_Frame_Traversal.maxpat](./wintersleep-patch/Drive_Frame_Traversal.maxpat) supports ramp-driven frame playback. [Drive_Timed_Partials.maxpat](./wintersleep-patch/Drive_Timed_Partials.maxpat) combines control mechanisms for partial playback. [Behaviour_Retrigger.maxpat](./wintersleep-patch/Behaviour_Retrigger.maxpat) provides a retrigger behaviour, and [Behaviours.maxpat](./wintersleep-patch/Behaviours.maxpat) provides a unified interface with state reporting. | —                                                                                        | —                                                                                                                                                       | —                                                                          |
-| **Capture**                                       | **Review**      | [Module_Capture.maxpat](./wintersleep-patch/Module_Capture.maxpat) outputs captured chunks to the separate [Module_Offline_Analysis.maxpat](./wintersleep-patch/Module_Offline_Analysis.maxpat) in the main patch. Circular buffering and buffer copying/collection exist in [Capture_Circular_Buffer.maxpat](./wintersleep-patch/Capture_Circular_Buffer.maxpat) and [Capture_Buffers.maxpat](./wintersleep-patch/Capture_Buffers.maxpat). The buffer defaults to three minutes with no direct duration control. A `delay` setting offsets the selected buffer range; its default is zero. [Mapping_Capture_Control.maxpat](./wintersleep-patch/Mapping_Capture_Control.maxpat) has a segment generator, but its onset input and output connections are incomplete.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Review capture delay for alignment with analysis.                                        | Fix the sample-rate-related capture-timing bug; derive chopped sample points from descriptors and determine how chunks are chosen.                      | —                                                                          |
+| **Capture**                                       | **Review**      | [Module_Capture.maxpat](./wintersleep-patch/Module_Capture.maxpat) outputs captured chunks to the separate [Module_Offline_Analysis.maxpat](./wintersleep-patch/Module_Offline_Analysis.maxpat) in the main patch. Circular buffering and buffer copying/collection exist in [Capture_Circular_Buffer.maxpat](./wintersleep-patch/Capture_Circular_Buffer.maxpat) and [Capture_Buffers.maxpat](./wintersleep-patch/Capture_Buffers.maxpat). The buffer defaults to three minutes with no direct duration control. A `delay` setting offsets the selected buffer range; its default is zero. [Mapping_Capture_Control.maxpat](./wintersleep-patch/Mapping_Capture_Control.maxpat) receives onset messages and contains a segment generator, but the generator is not connected to its output.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Review capture delay for alignment with analysis.                                        | Fix the sample-rate-related capture-timing bug; derive chopped sample points from descriptors and determine how chunks are chosen.                      | —                                                                          |
 | **Hardware&nbsp;input**                           | **Review**      | Launch Control faders, encoders, and buttons exist in [Controller_LaunchControl.maxpat](./wintersleep-patch/Controller_LaunchControl.maxpat). MIDI input targets the Launch Control device. Labels and static colors can be assigned in the editor.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Review labeling and colors.                                                              | —                                                                                                                                                       | Extra buttons, screen display and LEDs.                                    |
 | **Reverb**                                        | **Review**      | [Module_Playback.maxpat](./wintersleep-patch/Module_Playback.maxpat) hosts [DSP_Reverb.maxpat](./wintersleep-patch/DSP_Reverb.maxpat), which encodes the quad input to horizontal B-format, convolves it with a 3x3 matrix of nine IR buffers using [IR-W-W.wav](./wintersleep-patch/IRs/Reverb/IR-W-W.wav) and its companion IR files, then decodes to quad. [IR_Convert.py](./IR%20Preparation/IR_Convert.py) prepares nine linked-peak-normalized, 48 kHz, six-second, 32-bit-float matrix IRs from the twelve speaker/mic captures.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Review sample rate, pre-delay, direct removal, IR choice and live-input reverb.          | —                                                                                                                                                       | —                                                                          |
 | **Mapping&nbsp;-&#8288;&nbsp;Sample&nbsp;Choice** | **Partial**     | [Basic Systems Ideas.md](./Basic%20Systems%20Ideas.md) describes random and content-aware choice from captured audio. Segment selection exists in the timing/behaviour patterns, but an integrated sample-choice module is not identified.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | —                                                                                        | Implement integrated random/content-aware choice from captured audio.                                                                                   | —                                                                          |
-| **Mapping&nbsp;-&#8288;&nbsp;Slot&nbsp;Setup**    | **Partial**     | [Mapping_Slot.maxpat](./wintersleep-patch/Mapping_Slot.maxpat), [Control_Slot.maxpat](./wintersleep-patch/Control_Slot.maxpat), and [Mapping_Slot_Setup.maxpat](./wintersleep-patch/Mapping_Slot_Setup.maxpat) provide slot control, activation-time parameter and macro-mapping setup, and playback routing. Setup selects behaviour and mode, uses the shared feature dictionary, and obtains chunk data from `ws_data`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | —                                                                                        | Finish flat sound choice/start parameters and granular filters (`macro_mapping filter_freq`); derive descriptor chop points and choose chunks.          | —                                                                          |
+| **Mapping&nbsp;-&#8288;&nbsp;Slot&nbsp;Setup**    | **Partial**     | [Mapping_Slot.maxpat](./wintersleep-patch/Mapping_Slot.maxpat), [Control_Slot.maxpat](./wintersleep-patch/Control_Slot.maxpat), and [Mapping_Slot_Setup.maxpat](./wintersleep-patch/Mapping_Slot_Setup.maxpat) provide slot control, activation-time parameter and macro-mapping setup, and playback routing. Setup selects behaviour and mode, uses the shared feature dictionary, and obtains chunk data from `ws_data`. Granular filter setup selects the filter mode and uses cached centroid statistics to configure frequency bounds; frequency scaling accounts for the shared transpose value.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | —                                                                                        | Finish flat sound choice/start parameters; derive descriptor chop points and choose chunks. Select and load the chunk before feature initialization so cached centroid statistics match the selected chunk.          | —                                                                          |
