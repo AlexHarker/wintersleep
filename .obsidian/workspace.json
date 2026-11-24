@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "System Architecture.md",
+                "file": "Mapping.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "System Architecture"
+              "title": "Mapping"
             }
           }
         ]
@@ -173,10 +173,14 @@
   },
   "active": "1388fa5a50c6d824",
   "lastOpenFiles": [
-    "wintersleep-patch/docs/~$Playback Messages.xlsx",
-    "Studies.md",
+    "Harmonies.md",
+    "Mapping.md",
     "System Architecture.md",
+    "wintersleep-patch/docs/~$Playback Messages.xlsx",
+    "wintersleep-patch/Mapping_Calculate_Value_Bipolar.maxpat",
+    "wintersleep-patch/Mapping_Feature_Reverb.maxpat",
     "wintersleep-patch/docs/Message Inventory.md",
+    "Studies.md",
     "wintersleep-patch/Feature_Visualiser.maxpat",
     "wintersleep-patch/Feature_Display.maxpat",
     "wintersleep-patch/docs/Static Settings Candidates.md",
@@ -187,16 +191,12 @@
     "wintersleep-patch/IRs/untitled folder",
     "wintersleep-patch/IRs/Compensation.wav",
     "wintersleep-patch/validation/ws_chopping_descriptor_names.json",
-    "wintersleep-patch/validation/ws_descriptor_names 2.json",
-    "wintersleep-patch/ws_descriptor_set.txt",
     "Tasks.md",
-    "Mapping.md",
     "wintersleep-patch/docs/Default Settings.md",
     "Basic Systems Ideas.md",
     "Additive System.md",
     "Optimisation.md",
     "Timing Module Modes.md",
-    "Harmonies.md",
     "DSP Ideas.md",
     "Parameters.md",
     "wintersleep-patch/README.md",
