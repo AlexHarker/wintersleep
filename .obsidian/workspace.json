@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Mapping.md",
+                "file": "System Architecture.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Mapping"
+              "title": "System Architecture"
             }
           }
         ]
@@ -173,8 +173,9 @@
   },
   "active": "1388fa5a50c6d824",
   "lastOpenFiles": [
-    "Harmonies.md",
+    "wintersleep-patch/docs/Patch Progress + Notes.md",
     "Mapping.md",
+    "Harmonies.md",
     "System Architecture.md",
     "wintersleep-patch/docs/~$Playback Messages.xlsx",
     "wintersleep-patch/Mapping_Calculate_Value_Bipolar.maxpat",
@@ -185,7 +186,6 @@
     "wintersleep-patch/Feature_Display.maxpat",
     "wintersleep-patch/docs/Static Settings Candidates.md",
     "wintersleep-patch/docs/Static Settings.md",
-    "wintersleep-patch/docs/Patch Progress + Notes.md",
     "wintersleep-patch/IRs/Compensation/Compensation.wav",
     "wintersleep-patch/IRs/Compensation",
     "wintersleep-patch/IRs/untitled folder",
