@@ -23,7 +23,7 @@
             },
             {
                 "box": {
-                    "comment": "(mc.sinnal) Slot 8",
+                    "comment": "(mc.signal) Slot 8",
                     "id": "obj-20",
                     "index": 0,
                     "maxclass": "outlet",
@@ -34,7 +34,7 @@
             },
             {
                 "box": {
-                    "comment": "(mc.sinnal) Slot 7",
+                    "comment": "(mc.signal) Slot 7",
                     "id": "obj-19",
                     "index": 0,
                     "maxclass": "outlet",
@@ -45,7 +45,7 @@
             },
             {
                 "box": {
-                    "comment": "(mc.sinnal) Slot 6",
+                    "comment": "(mc.signal) Slot 6",
                     "id": "obj-18",
                     "index": 0,
                     "maxclass": "outlet",
@@ -56,7 +56,7 @@
             },
             {
                 "box": {
-                    "comment": "(mc.sinnal) Slot 5",
+                    "comment": "(mc.signal) Slot 5",
                     "id": "obj-9",
                     "index": 0,
                     "maxclass": "outlet",
@@ -67,7 +67,7 @@
             },
             {
                 "box": {
-                    "comment": "(mc.sinnal) Slot 4",
+                    "comment": "(mc.signal) Slot 4",
                     "id": "obj-8",
                     "index": 0,
                     "maxclass": "outlet",
@@ -78,7 +78,7 @@
             },
             {
                 "box": {
-                    "comment": "(mc.sinnal) Slot 3",
+                    "comment": "(mc.signal) Slot 3",
                     "id": "obj-7",
                     "index": 0,
                     "maxclass": "outlet",
@@ -89,7 +89,7 @@
             },
             {
                 "box": {
-                    "comment": "(mc.sinnal) Slot 2",
+                    "comment": "(mc.signal) Slot 2",
                     "id": "obj-6",
                     "index": 0,
                     "maxclass": "outlet",
@@ -100,7 +100,7 @@
             },
             {
                 "box": {
-                    "comment": "(mc.sinnal) Slot 1",
+                    "comment": "(mc.signal) Slot 1",
                     "id": "obj-5",
                     "index": 0,
                     "maxclass": "outlet",
@@ -725,7 +725,7 @@
             },
             {
                 "box": {
-                    "comment": "(mc.sinnal) Output",
+                    "comment": "(mc.signal) Output",
                     "id": "obj-39",
                     "index": 0,
                     "maxclass": "outlet",

@@ -331,7 +331,7 @@
             },
             {
                 "box": {
-                    "comment": "(mc.sinnal) Slot Input",
+                    "comment": "(mc.signal) Slot Input",
                     "id": "obj-33",
                     "index": 0,
                     "maxclass": "inlet",
